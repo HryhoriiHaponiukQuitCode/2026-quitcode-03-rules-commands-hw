@@ -7,6 +7,8 @@ export interface SyncReport {
   pending: number;
   delivered: number;
   failed: number;
+  /** Заповнено, якщо запуск зупинено до розсилки (напр. пошкоджений файл стану). */
+  error?: string;
 }
 
 export async function runSync(
@@ -15,9 +17,16 @@ export async function runSync(
   statePath: string,
 ): Promise<SyncReport> {
   const state = loadState(statePath);
-  saveState(statePath, state); // створює файл стану при першому запуску
+  if (!state.ok) {
+    // Пошкоджений стан — не «перший запуск». Нічого не розсилаємо й файл не перезаписуємо:
+    // його має відновити людина. Розіслати всю історію повторно — дорожче за пропущений тик.
+    log.error(`sync: run stopped, state is unreadable: ${state.error}`);
+    return { pending: 0, delivered: 0, failed: 0, error: state.error };
+  }
 
-  const pending = leads.filter((lead) => lead.createdAt > state.lastSyncedAt);
+  const pending = leads
+    .filter((lead) => lead.createdAt > state.value.lastSyncedAt)
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
   let delivered = 0;
   let failed = 0;
 
@@ -27,13 +36,10 @@ export async function runSync(
       if (result.ok) delivered++;
       else failed++;
     }
+    // Чекпоінт після кожного ліда: обірваний запуск продовжиться звідси, а не з початку.
+    saveState(statePath, { lastSyncedAt: lead.createdAt });
   }
 
-  const newest = pending.reduce(
-    (latest, lead) => (lead.createdAt > latest ? lead.createdAt : latest),
-    state.lastSyncedAt,
-  );
-  saveState(statePath, { lastSyncedAt: newest });
   log.info(`sync: ${pending.length} pending leads, ${delivered} delivered, ${failed} failed`);
   return { pending: pending.length, delivered, failed };
 }
