@@ -28,7 +28,7 @@
 
 ### `/generate-integration`
 
-- Виклик: `/generate-integration <сервіс>` (будь-який, крім Telegram — він для A/B)
+- Виклик: `/generate-integration <сервіс>` (будь-який сервіс вашої агенції)
 - Які файли створено: <...>
 - `npm test`, `npm run check:rules`: <...>
 

@@ -15,7 +15,7 @@
 - [ ] **Task A:** `architecture`, `conventions`, `do-not-touch` у `.claude/rules/` або `.cursor/rules/`, у кожного — «Як перевірити»
 - [ ] **Task B:** оновлений `AGENTS.md`; `CLAUDE.md` з `@AGENTS.md`; перевірка завантаження в `docs/verification.md`
 - [ ] **Task C:** команди `analyze-error`, `refactor`, `generate-integration` + три прогони в `docs/verification.md`
-- [ ] **Task D:** `docs/ab-validation.md` з числами `check:rules` для обох прогонів + діфи в `docs/ab/`
+- [ ] **Task D:** `docs/ab-validation.md` з обома прогонами: поведінка агента, числа `check:rules` і `npm test` (+ діфи в `docs/ab/`, якщо агент змінював файли)
 - [ ] **Task E (bonus):** хук, що блокує зміни в `app/src/core/**`
 - [ ] `npm test` зелений; `app/src/core/**`, `app/scripts/**`, `materials/**` не змінені
 
