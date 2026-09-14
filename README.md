@@ -19,7 +19,7 @@ cd 2026-quitcode-03-rules-commands-hw
 git checkout -b ws03/<github-username>
 cd app && npm install && npm test && npm run check:rules && cd ..
 # follow docs/walkthrough.md
-gh pr create --title "WS3: <your name>" --fill
+gh pr create --web   # fill in the PR template, incl. «Ім'я та Прізвище»
 ```
 
 Full step-by-step instructions: [`docs/walkthrough.md`](docs/walkthrough.md).
