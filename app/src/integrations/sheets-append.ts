@@ -1,4 +1,4 @@
-// Додає рядок нового ліда в Google Sheets через n8n-вебхук.
+// Додає рядок нового ліда в Google-таблицю через вебхук таблиці.
 import { readEnv } from "../core/config.js";
 import { postJson } from "../core/http.js";
 import { log } from "../core/log.js";
