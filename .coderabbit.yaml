@@ -1,0 +1,272 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# CodeRabbit config — review of QuitCode Workshop 3 homework PRs.
+# Workshop: "Правила та команди: керована поведінка AI".
+# Deliverables are agent configuration (rules, AGENTS.md, commands, hooks)
+# plus evidence documents; app code changes are secondary.
+
+language: "uk-UA"
+tone_instructions: >
+  Ментор воркшопу QuitCode. Відповідай українською, доброзичливо але вимогливо.
+  Оцінюєш правила, команди агента й докази їх перевірки. Статуси: ✅ зроблено,
+  ⚠️ частково, ❌ пропущено.
+
+early_access: false
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_placeholder: "@coderabbitai summary"
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: false
+
+  auto_review:
+    enabled: true
+    drafts: true
+    auto_incremental_review: true
+    auto_pause_after_reviewed_commits: 0
+    base_branches:
+      - ".*"
+    ignore_title_keywords:
+      - "WIP"
+      - "[skip review]"
+    ignore_usernames:
+      - "dependabot[bot]"
+      - "renovate[bot]"
+      - "github-actions[bot]"
+
+  # ── File filters — every graded path listed explicitly ────────
+  path_filters:
+    - ".claude/**"
+    - ".cursor/**"
+    - "AGENTS.md"
+    - "CLAUDE.md"
+    - "docs/**"
+    - "app/**"
+    - "materials/**"
+    - "!**/node_modules/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/coverage/**"
+    - "!*.lock"
+    - "!**/package-lock.json"
+    - "!**/yarn.lock"
+
+  # ── Path-specific review instructions ─────────────────────────
+  path_instructions:
+    - path: ".claude/rules/**"
+      instructions: |
+        Task A (Claude Code) — правила проєкту. Очікуються три файли `.md`:
+        architecture, conventions, do-not-touch. Перевір формат: правила,
+        прив'язані до файлів, використовують frontmatter `paths:` зі списком
+        шаблонів. Поле `globs:` — це формат Cursor, Claude Code його не
+        використовує → ❌ для прив'язки. do-not-touch має бути БЕЗ `paths`
+        (завантажується завжди); architecture і conventions прив'язані до
+        `app/src/**`. Перевір зміст: конкретика з
+        materials/architecture-brief.md — postJson, readEnv, parseJson + guard,
+        log, Result, без any, без нових залежностей, захищені шляхи
+        (app/src/core/**, app/scripts/**, materials/**, .coderabbit.yaml,
+        .github/**); заборона разом з альтернативою; розділ «Як перевірити».
+        Загальні фрази на кшталт «пиши якісний код» — ⚠️. Захисне правило з
+        винятком «якщо задача потребує» — ❌. Це статичне рев'ю — do NOT
+        attempt to execute anything.
+
+    - path: ".cursor/rules/**"
+      instructions: |
+        Task A (Cursor) — правила проєкту. Очікуються три файли з розширенням
+        `.mdc`: architecture, conventions, do-not-touch. Файли `.md` у
+        .cursor/rules Cursor ігнорує → ❌. Перевір frontmatter: do-not-touch —
+        `alwaysApply: true`; architecture і conventions — `globs` на
+        `app/src/**` і `alwaysApply: false`. Перевір зміст: конкретика з
+        materials/architecture-brief.md — postJson, readEnv, parseJson + guard,
+        log, Result, без any, без нових залежностей, захищені шляхи; заборона
+        разом з альтернативою; розділ «Як перевірити». Загальні фрази — ⚠️.
+        Захисне правило з винятком «якщо задача потребує» — ❌. Статичне рев'ю.
+
+    - path: "AGENTS.md"
+      instructions: |
+        Task B — спільна база для Claude Code і Cursor. У стартовому репо тут
+        навмисно слабкий текст («пиши якісний код»); незмінений файл — ❌.
+        Очікується короткий (до ~60 рядків) конкретний документ: що за проєкт,
+        команди (install, test, typecheck, check:rules), карта core/
+        integrations/ sync/ з позначкою, що core захищений, 5–7 ключових правил
+        одним рядком кожне з посиланням на детальні правила, як перевірити
+        роботу перед комітом. Дослівна копія правил з .claude/rules або
+        .cursor/rules — ⚠️ (порушення DRY).
+
+    - path: "CLAUDE.md"
+      instructions: |
+        Task B — CLAUDE.md має ІМПОРТУВАТИ AGENTS.md окремим рядком `@AGENTS.md`.
+        Markdown-посилання на кшталт `[AGENTS.md](./AGENTS.md)` — це НЕ імпорт:
+        Claude Code не завантажує файл за посиланням → ❌, якщо імпорту немає.
+        Специфічні для Claude Code доповнення під імпортом — нормально.
+
+    - path: ".claude/commands/**"
+      instructions: |
+        Task C (Claude Code) — команди analyze-error, refactor,
+        generate-integration. Перевір у кожної: frontmatter з `description`;
+        ціль береться з аргументу (`$ARGUMENTS`) з запасним поясненням у тексті;
+        конкретні кроки; acceptance criteria, на які можна відповісти «так/ні»;
+        stop-правило. analyze-error має відрізняти тригер від корінної причини
+        й не змінювати код до підтвердження; refactor — зберігати поведінку
+        (тести й check:rules до і після); generate-integration — нова інтеграція
+        з тестом і рядком у реєстрі, без змін у core і без нових залежностей.
+        Команда, що дослівно переписує правила замість посилання на них, — ⚠️.
+
+    - path: ".cursor/commands/**"
+      instructions: |
+        Task C (Cursor) — ті самі вимоги, що й до .claude/commands: description,
+        ціль з аргументу (текст після назви команди), кроки, acceptance criteria,
+        stop. Відсутність підстановки `$ARGUMENTS` у Cursor НЕ є помилкою
+        учасника, якщо команда пояснює, звідки брати ціль.
+
+    - path: ".claude/skills/**"
+      instructions: |
+        Команди можуть бути оформлені як skills (SKILL.md) — це прийнятна форма
+        Task C. Застосуй ті самі вимоги: description, ціль, кроки, acceptance
+        criteria, stop.
+
+    - path: "docs/verification.md"
+      instructions: |
+        Докази Task B і C (і бонусу E). Task B: як учасник переконався, що
+        AGENTS.md завантажився (напр. `/context` → Memory files). Task C: сліди
+        трьох реальних запусків — що analyze-error назвав корінною причиною
+        інциденту з materials/error-log.txt (очікувано: не лише «закінчився
+        диск», а тихий фолбек loadState на початковий стан і перезапис стану на
+        старті runSync), check:rules до/після для refactor, які файли створив
+        generate-integration. Переказ шаблону без власних спостережень — ⚠️.
+
+    - path: "docs/ab-validation.md"
+      instructions: |
+        Task D — A/B-валідація. Перевір: один і той самий запит з
+        materials/ab-task.md у двох нових сесіях; для обох прогонів — числа з
+        `npm run check:rules` і результат `npm test`; таблиця порівняння;
+        висновок, що спирається на числа. Чесний висновок «різниці немає» з
+        поясненням — прийнятний. Висновок без чисел — ⚠️.
+
+    - path: "docs/ab/**"
+      instructions: |
+        Діфи-докази прогонів A/B. Не рев'юй їх як код; лише переконайся, що
+        файли для обох прогонів існують і не порожні.
+
+    - path: "app/src/core/**"
+      instructions: |
+        ЗАХИЩЕНА ЗОНА. Будь-яка зміна, додавання чи видалення файлу в
+        app/src/core/ — ❌ порушення do-not-touch, навіть «дрібна» чи
+        «адитивна». Назви це прямо.
+
+    - path: "app/scripts/**"
+      instructions: |
+        Перевірка правил — частина завдання. Будь-яка зміна check-rules.mjs чи
+        core.lock.json — ❌: це підганяння результату A/B.
+
+    - path: "materials/**"
+      instructions: |
+        Матеріали завдання. Будь-яка зміна — ❌.
+
+    - path: "app/src/**"
+      instructions: |
+        Зміни в застосунку (поза core): нові інтеграції, рефакторинг
+        sheets-append.ts, фікс sync/state.ts. Перевір конвенції з
+        materials/architecture-brief.md: Result замість винятків; HTTP лише
+        через postJson; змінні середовища лише через readEnv; JSON лише через
+        parseJson з guard; журнал лише через log; без any; без нових
+        залежностей; у сповіщеннях без email і телефону; тест поруч із модулем
+        без реальної мережі. Статичне рев'ю — do NOT run the test suite.
+
+  # ── Pre-merge checks (grading) ────────────────────────────────
+  pre_merge_checks:
+    docstrings:
+      mode: "off"
+
+    title:
+      mode: "warning"
+      requirements: >
+        PR title should follow: "WS3: <participant full name>".
+
+    description:
+      mode: "warning"
+      requirements: >
+        The PR description MUST contain a filled-in "Ім'я та Прізвище" field
+        under the "Учасник" heading with the participant's real full name
+        (two words). An empty field, a leftover placeholder, or only a GitHub
+        login is NOT acceptable — say so explicitly and ask the author to add
+        it. Also check the task checklist is filled in rather than left as
+        unchecked template boxes.
+
+    custom_checks:
+      - mode: "warning"
+        name: "Task A — project rules"
+        instructions: >
+          Static review of the diff only — do NOT attempt to execute anything.
+          Check the PR adds three rules named architecture, conventions and
+          do-not-touch EITHER as .claude/rules/*.md (Claude Code: file scoping
+          via a `paths:` list in frontmatter; do-not-touch has no `paths`) OR
+          as .cursor/rules/*.mdc (Cursor: .mdc extension required;
+          do-not-touch uses `alwaysApply: true`, the others use `globs` on
+          app/src/**). Rules must be concrete (postJson, readEnv, parseJson
+          with a guard, log, Result, no any, no new dependencies, the protected
+          paths) and each must include a "how to verify" section. PASS if all
+          three exist in a valid format with concrete content; FAIL if any is
+          missing, uses the wrong format for its tool, or is generic filler.
+
+      - mode: "warning"
+        name: "Task B — AGENTS.md baseline"
+        instructions: >
+          Static review of the diff only. Check AGENTS.md was rewritten from
+          the generic starter text into a concise project baseline (project
+          summary, commands, module map with the protected core, key rules as
+          one-liners, how to verify), and CLAUDE.md contains an `@AGENTS.md`
+          import line — a markdown link alone is not an import. Also check
+          docs/verification.md records how the participant confirmed the
+          baseline was loaded. PASS if all three hold; FAIL otherwise.
+
+      - mode: "warning"
+        name: "Task C — commands"
+        instructions: >
+          Static review of the diff only. Check three commands exist —
+          analyze-error, refactor, generate-integration — under
+          .claude/commands/, .cursor/commands/ or as skills, each with a
+          description, the target taken from the command argument, concrete
+          steps, verifiable acceptance criteria and a stop rule. Check
+          docs/verification.md records a real run of each: the root cause the
+          agent named for materials/error-log.txt, check:rules before/after for
+          the refactor, and the files created by generate-integration. PASS if
+          the commands and the three run records are present; FAIL otherwise.
+
+      - mode: "warning"
+        name: "Task D — A/B validation"
+        instructions: >
+          Static review of the diff only. Check docs/ab-validation.md documents
+          two runs of the same prompt from materials/ab-task.md in fresh
+          sessions — rules off (B) and rules on (A) — with numbers from
+          `npm run check:rules` and the `npm test` result for both, a
+          comparison table and a conclusion grounded in those numbers, plus
+          diff files under docs/ab/. An honest "no difference" conclusion with
+          reasoning is acceptable. PASS if present and numeric; FAIL otherwise.
+
+      - mode: "warning"
+        name: "Task E — enforcement hook (bonus)"
+        instructions: >
+          Optional. If the PR adds a hook (.claude/settings.json with a
+          PreToolUse hook, or .cursor/hooks.json with preToolUse) plus a script
+          that blocks edits under app/src/core/ by exiting with code 2 or
+          returning a deny decision, check it is wired correctly and that
+          docs/verification.md quotes a real blocked attempt. Absence is NOT a
+          failure.
+
+      - mode: "warning"
+        name: "Protected files untouched"
+        instructions: >
+          Static review of the diff only. FAIL if the PR modifies, adds or
+          deletes any file under app/src/core/, app/scripts/ or materials/, or
+          changes .coderabbit.yaml or anything under .github/. PASS otherwise.
+          New rules, commands, docs, integrations and tests elsewhere are
+          expected and fine.
+
+chat:
+  auto_reply: true

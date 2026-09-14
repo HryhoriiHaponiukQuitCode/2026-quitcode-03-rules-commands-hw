@@ -1,0 +1,47 @@
+# lead-sync · клієнт Studio Nova · production · ніч з 09.09 на 10.09.2026 (витяг)
+# Дані синтетичні. Рядки вже пройшли маскування log.redact().
+# Точка входу worker.ts лежить у репозиторії деплою й сюди не входить:
+# вона раз на 5 хвилин викликає runSync(leads, integrations, "data/sync-state.json").
+#
+# Повідомлення клієнта, 10.09, 09:12:
+#   «Доброго ранку! У Slack-каналі #leads за ніч сотні повідомлень про тих самих
+#    людей, а в Google-таблиці тисячі дублікатів. Ось щойно знову прийшли ті самі.
+#    Що відбувається?»
+#
+2026-09-09T23:55:00.411Z INFO slack-notify: lead ld_1284 delivered
+2026-09-09T23:55:00.927Z INFO sheets-append: row added for lead ld_1284
+2026-09-09T23:55:00.931Z INFO sync: 1 pending leads, 2 delivered, 0 failed
+2026-09-10T00:00:00.398Z INFO sync: 0 pending leads, 0 delivered, 0 failed
+2026-09-10T00:02:37.114Z SYSTEM disk usage /srv/lead-sync/data: 97% (nightly backup job running)
+2026-09-10T00:05:00.402Z ERROR sync run crashed: Error: ENOSPC: no space left on device, write
+    at Object.writeFileSync (node:fs:2426:20)
+    at saveState (/srv/lead-sync/app/src/sync/state.ts:21:3)
+    at runSync (/srv/lead-sync/app/src/sync/run.ts:18:3)
+    at async Timeout.tick (/srv/lead-sync/worker.ts:31:5)
+2026-09-10T00:05:00.403Z SYSTEM disk usage /srv/lead-sync/data: 100%
+2026-09-10T00:10:00.391Z ERROR sync run crashed: Error: ENOSPC: no space left on device, write
+    at Object.writeFileSync (node:fs:2426:20)
+    at saveState (/srv/lead-sync/app/src/sync/state.ts:21:3)
+    at runSync (/srv/lead-sync/app/src/sync/run.ts:18:3)
+    at async Timeout.tick (/srv/lead-sync/worker.ts:31:5)
+2026-09-10T00:13:48.020Z SYSTEM ops: old backup archive removed, disk usage /srv/lead-sync/data: 41%
+2026-09-10T00:15:00.377Z INFO slack-notify: lead ld_0001 delivered
+2026-09-10T00:15:00.861Z INFO sheets-append: row added for lead ld_0001
+2026-09-10T00:15:01.302Z INFO slack-notify: lead ld_0002 delivered
+2026-09-10T00:15:01.790Z INFO sheets-append: row added for lead ld_0002
+... 392 similar lines skipped ...
+2026-09-10T00:18:12.645Z WARN http: attempt 1 to https://hooks.slack.example.test/services/<REDACTED> failed: HTTP 429
+2026-09-10T00:18:12.947Z WARN http: attempt 2 to https://hooks.slack.example.test/services/<REDACTED> failed: HTTP 429
+2026-09-10T00:18:13.550Z ERROR slack-notify: lead ld_0199 not delivered: POST https://hooks.slack.example.test/services/<REDACTED> failed: HTTP 429
+... 117 similar lines skipped ...
+2026-09-10T00:19:30.000Z SYSTEM scheduler: run exceeded 4m30s limit, worker process killed (SIGKILL)
+2026-09-10T00:20:00.384Z INFO slack-notify: lead ld_0001 delivered
+2026-09-10T00:20:00.869Z INFO sheets-append: row added for lead ld_0001
+2026-09-10T00:20:01.311Z INFO slack-notify: lead ld_0002 delivered
+... 508 similar lines skipped ...
+2026-09-10T00:24:30.000Z SYSTEM scheduler: run exceeded 4m30s limit, worker process killed (SIGKILL)
+... the same pattern repeats every 5 minutes ...
+2026-09-10T09:10:00.380Z INFO slack-notify: lead ld_0001 delivered
+2026-09-10T09:10:00.866Z INFO sheets-append: row added for lead ld_0001
+... 511 similar lines skipped ...
+2026-09-10T09:14:30.000Z SYSTEM scheduler: run exceeded 4m30s limit, worker process killed (SIGKILL)

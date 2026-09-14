@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+coverage/
+.env
+.env.*
+!.env.example
+*.local
+CLAUDE.local.md
+.DS_Store
+nul
+repomix-output.xml

@@ -1,0 +1,16 @@
+{
+  "name": "quitcode-ws03-lead-sync",
+  "private": true,
+  "type": "module",
+  "description": "Lead-sync worker migrated from n8n — the target codebase for WS3 rules and commands",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "check:rules": "node scripts/check-rules.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
+  }
+}
