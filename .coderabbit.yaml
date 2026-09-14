@@ -134,24 +134,33 @@ reviews:
       instructions: |
         Докази Task B і C (і бонусу E). Task B: як учасник переконався, що
         AGENTS.md завантажився (напр. `/context` → Memory files). Task C: сліди
-        трьох реальних запусків — що analyze-error назвав корінною причиною
-        інциденту з materials/error-log.txt (очікувано: не лише «закінчився
-        диск», а тихий фолбек loadState на початковий стан і перезапис стану на
-        старті runSync), check:rules до/після для refactor, які файли створив
-        generate-integration. Переказ шаблону без власних спостережень — ⚠️.
+        трьох реальних запусків — що analyze-error назвав причиною інциденту з
+        materials/error-log.txt, check:rules до/після для refactor, які файли
+        створив generate-integration. Для analyze-error очікувано: «закінчився
+        диск» названо тригером, а корінною причиною — тихий фолбек loadState на
+        початковий стан при пошкодженому файлі; неатомарний запис і безумовний
+        saveState на старті runSync — підсилювачі. Зупинка на «закінчився диск»
+        без подальшої ітерації команди — ⚠️. Переказ шаблону без власних
+        спостережень — ⚠️.
 
     - path: "docs/ab-validation.md"
       instructions: |
         Task D — A/B-валідація. Перевір: один і той самий запит з
-        materials/ab-task.md у двох нових сесіях; для обох прогонів — числа з
-        `npm run check:rules` і результат `npm test`; таблиця порівняння;
-        висновок, що спирається на числа. Чесний висновок «різниці немає» з
-        поясненням — прийнятний. Висновок без чисел — ⚠️.
+        materials/ab-task.md у двох нових сесіях; у прогоні B сховані І правила,
+        І команди (commands — це skills, які модель може викликати сама); однакова
+        відповідь на уточнення в обох прогонах. Для кожного прогону — поведінка
+        агента (чи змінив app/src/core/, чи зупинився й спитав, що запропонував
+        щодо core і core.lock.json), числа `npm run check:rules`, результат
+        `npm test`, змінені файли; таблиця порівняння; висновок, що спирається на
+        ці спостереження. Чесний висновок «різниці немає» з поясненням, звідки
+        агент узяв домовленості, — прийнятний. Висновок без спостережень чи чисел
+        — ⚠️.
 
     - path: "docs/ab/**"
       instructions: |
-        Діфи-докази прогонів A/B. Не рев'юй їх як код; лише переконайся, що
-        файли для обох прогонів існують і не порожні.
+        Діфи-докази прогонів A/B — лише для прогонів, у яких агент змінював
+        файли. Не рев'юй їх як код; переконайся лише, що вони не порожні й
+        відповідають опису в docs/ab-validation.md.
 
     - path: "app/src/core/**"
       instructions: |
@@ -243,11 +252,17 @@ reviews:
         instructions: >
           Static review of the diff only. Check docs/ab-validation.md documents
           two runs of the same prompt from materials/ab-task.md in fresh
-          sessions — rules off (B) and rules on (A) — with numbers from
-          `npm run check:rules` and the `npm test` result for both, a
-          comparison table and a conclusion grounded in those numbers, plus
-          diff files under docs/ab/. An honest "no difference" conclusion with
-          reasoning is acceptable. PASS if present and numeric; FAIL otherwise.
+          sessions — B with both rules AND commands hidden, A with them in
+          place, and the same reply to any clarifying question in both. For
+          each run it must record the agent's behaviour (whether it modified
+          app/src/core/, whether it stopped and asked, what it proposed about
+          core and core.lock.json), the `npm run check:rules` numbers, the
+          `npm test` result and the changed files, followed by a comparison
+          table and a conclusion grounded in those observations. Diff files
+          under docs/ab/ are expected only for runs that changed files. An
+          honest "no difference" conclusion that explains where the agent
+          learned the conventions is acceptable. PASS if both runs are
+          documented with observations and numbers; FAIL otherwise.
 
       - mode: "warning"
         name: "Task E — enforcement hook (bonus)"
