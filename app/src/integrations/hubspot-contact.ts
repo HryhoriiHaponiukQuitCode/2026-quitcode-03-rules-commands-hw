@@ -35,6 +35,12 @@ export const hubspotContact: Integration = {
       { headers: { authorization: `Bearer ${accessToken.value}` } },
     );
     if (!response.ok) {
+      // 409 — контакт із таким email уже є: напр. повтор після втраченої відповіді або
+      // повторна розсилка ліда. Мета доставки досягнута, тож це не помилка.
+      if (response.error.endsWith("HTTP 409")) {
+        log.info(`hubspot-contact: contact for lead ${lead.id} already exists`);
+        return { ok: true, value: undefined };
+      }
       log.error(`hubspot-contact: lead ${lead.id} not delivered: ${response.error}`);
       return response;
     }

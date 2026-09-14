@@ -20,14 +20,15 @@ Studio Nova в інтеграції (Slack, Google Sheets). TypeScript, Node 22+
 
 ## Головне
 
-1. Не змінювати `app/src/core/**`, `app/scripts/**`, `materials/**`, `.coderabbit.yaml`, `.github/**`. Без винятків: якщо без цього ніяк — зупинитись і спитати.
-2. Нова інтеграція = модуль + тест поруч + рядок у `integrations/index.ts`.
-3. HTTP — `postJson`, змінні — `readEnv`, JSON — `parseJson` з guard, журнал — `log`.
-4. Помилки — `Result`, а не винятки. Зіпсовані дані — помилка, а не тихий дефолт.
-5. Без `any` і без нових залежностей.
-6. У сповіщеннях — без email і телефону ліда.
+1. Не змінювати `app/src/core/**`, `app/scripts/**`, `materials/**`, `.coderabbit.yaml`, `.github/**`. Без винятків: якщо без цього ніяк — зупинитись і спитати; дозвіл — лише явний, з назвою файлу. → [do-not-touch](.claude/rules/do-not-touch.md)
+2. Нова інтеграція = модуль + тест поруч + рядок у `integrations/index.ts`. → [architecture](.claude/rules/architecture.md)
+3. HTTP — `postJson`, змінні — `readEnv`, JSON — `parseJson` з guard, журнал — `log`. → [conventions](.claude/rules/conventions.md)
+4. Помилки — `Result`, а не винятки. Зіпсовані дані — помилка, а не тихий дефолт. → [conventions](.claude/rules/conventions.md)
+5. Без `any` і без нових залежностей. → [conventions](.claude/rules/conventions.md)
+6. У сповіщеннях — без email і телефону ліда. → [conventions](.claude/rules/conventions.md)
 
-Детально — у правилах проєкту: `.claude/rules/` (Claude Code).
+Посилання ведуть на детальні правила Claude Code: `do-not-touch` завантажується завжди,
+`architecture` і `conventions` — коли агент читає файли в `app/src/`.
 
 ## Перед комітом
 

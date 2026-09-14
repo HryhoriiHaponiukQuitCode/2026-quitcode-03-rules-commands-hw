@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -34,6 +34,18 @@ describe("loadState", () => {
   it("повертає помилку для JSON неочікуваної форми", () => {
     const path = join(dir, "sync-state.json");
     writeFileSync(path, "{}");
+    expect(loadState(path).ok).toBe(false);
+  });
+
+  it("повертає помилку для неканонічної дати, яка все одно парситься", () => {
+    const path = join(dir, "sync-state.json");
+    writeFileSync(path, JSON.stringify({ lastSyncedAt: "2026-9-9" }));
+    expect(loadState(path).ok).toBe(false);
+  });
+
+  it("повертає помилку, а не кидає виняток, якщо файл не читається", () => {
+    const path = join(dir, "sync-state.json");
+    mkdirSync(path); // на місці файлу — тека: readFileSync кине EISDIR
     expect(loadState(path).ok).toBe(false);
   });
 });

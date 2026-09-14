@@ -62,4 +62,13 @@ describe("hubspot-contact", () => {
       error: "POST https://api.hubapi.com/crm/v3/objects/contacts failed: HTTP 400",
     });
   });
+
+  it("вважає 409 (контакт уже існує) успішною доставкою", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => new Response('{"status":"error","category":"CONFLICT"}', { status: 409 })),
+    );
+
+    await expect(hubspotContact.send(lead)).resolves.toEqual({ ok: true, value: undefined });
+  });
 });

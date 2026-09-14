@@ -19,6 +19,10 @@ export const sheetsAppend: Integration = {
   async send(lead: Lead): Promise<Result<void>> {
     const webhookUrl = readEnv("SHEETS_WEBHOOK_URL");
     if (!webhookUrl.ok) return webhookUrl;
+    // Токен іде в query string, тож лише HTTPS: інакше він полетить мережею відкритим текстом.
+    if (!webhookUrl.value.startsWith("https://")) {
+      return { ok: false, error: "sheets-append: SHEETS_WEBHOOK_URL must use https" };
+    }
 
     const token = readEnv("SHEETS_TOKEN");
     if (!token.ok) return token;

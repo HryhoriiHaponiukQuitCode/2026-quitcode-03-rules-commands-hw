@@ -12,8 +12,9 @@ paths:
 
 ## Правило
 
-- Шари: `core/` ← `integrations/` і `sync/`. Імпорти лише в цьому напрямку:
-  `core/` не імпортує нічого з проєкту, `integrations/` не імпортують `sync/`.
+- Шари: `core/` ← `integrations/` і `sync/`. Імпорти між шарами — лише в цьому
+  напрямку: `core/` не імпортує `integrations/` чи `sync/` (усередині `core/` —
+  можна), `integrations/` не імпортують `sync/`.
 - Нова зовнішня система — рівно три зміни:
   1. `app/src/integrations/<kebab-name>.ts` з `export const <camelName>: Integration`
      і `name: "<kebab-name>"`;

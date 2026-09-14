@@ -4,7 +4,9 @@
 // Written in Node rather than bash so that it also works on Windows.
 import path from "node:path";
 
-const PROTECTED = ["app/src/core/", "app/scripts/", "materials/"];
+// Same zones as .claude/rules/do-not-touch.md. A single file is listed with a trailing slash
+// too, because the check below compares `${relative}/`.
+const PROTECTED = ["app/src/core/", "app/scripts/", "materials/", ".github/", ".coderabbit.yaml/"];
 const WRITE_TOOL = /(edit|write|delete|patch|replace)/i;
 
 const chunks = [];

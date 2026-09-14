@@ -41,4 +41,16 @@ describe("sheets-append", () => {
 
     await expect(sheetsAppend.send(lead)).resolves.toEqual({ ok: false, error: "sheets error: quota_exceeded" });
   });
+
+  it("не надсилає токен, якщо адреса вебхука не https", async () => {
+    vi.stubEnv("SHEETS_WEBHOOK_URL", "http://sheets.example.test/append");
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(sheetsAppend.send(lead)).resolves.toEqual({
+      ok: false,
+      error: "sheets-append: SHEETS_WEBHOOK_URL must use https",
+    });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
 });
