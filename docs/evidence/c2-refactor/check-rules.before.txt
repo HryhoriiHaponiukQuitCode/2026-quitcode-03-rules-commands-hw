@@ -1,0 +1,25 @@
+check:rules — 10 source files, 7 rules
+
+  src/integrations/sheets-append.ts  no-any           line 6
+  src/integrations/sheets-append.ts  http-via-core    line 7
+  src/integrations/sheets-append.ts  env-via-config   line 7
+  src/integrations/sheets-append.ts  json-via-parse   line 12
+  src/integrations/sheets-append.ts  no-any           line 12
+  src/integrations/sheets-append.ts  log-via-logger   line 14
+  src/integrations/sheets-append.ts  log-via-logger   line 17
+  src/sync/state.ts                  json-via-parse   line 14
+
+by rule:
+  http-via-core     1   HTTP only through postJson() from src/core/http.ts
+  env-via-config    1   environment only through readEnv() from src/core/config.ts
+  json-via-parse    2   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    2   logging only through log from src/core/log.ts (it redacts secrets)
+  no-any            2   no `any`: use `unknown` plus a guard
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/integrations/sheets-append.ts    7
+  src/sync/state.ts                    1
+
+TOTAL: 8 violation(s)

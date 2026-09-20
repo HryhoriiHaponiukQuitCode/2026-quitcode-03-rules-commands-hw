@@ -1,0 +1,1 @@
+/generate-integration telegram-notify — сповіщення менеджерам у Telegram-чат через Bot API

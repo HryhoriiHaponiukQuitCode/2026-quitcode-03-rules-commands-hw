@@ -11,7 +11,7 @@ Vitest, **нуль runtime-залежностей**.
 cd app && npm install        # встановлення
 cd app && npm test           # Vitest, 18 тестів на старті
 cd app && npm run typecheck  # tsc --noEmit
-cd app && npm run check:rules # статична перевірка конвенцій; базова лінія — TOTAL: 8
+cd app && npm run check:rules # конвенції; на старті домашки TOTAL: 8, після рефакторингу — 1
 node tools/check-rule-claims.mjs  # правила ↔ код: чи не розійшлись документи з фактом
 node .claude/hooks/test-protect-core.mjs  # тести хука, що захищає ядро
 ```

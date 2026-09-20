@@ -1,0 +1,11 @@
+ M .claude/commands/analyze-error.md
+ M AGENTS.md
+ M app/src/integrations/index.ts
+ M app/src/integrations/sheets-append.test.ts
+ M app/src/integrations/sheets-append.ts
+?? app/src/integrations/telegram-notify.test.ts
+?? app/src/integrations/telegram-notify.ts
+?? docs/evidence/
+?? tools/ab-report.mjs
+?? tools/ab-run.sh
+?? tools/session-run.sh

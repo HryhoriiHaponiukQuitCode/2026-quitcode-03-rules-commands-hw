@@ -42,3 +42,17 @@ describe("sheets-append", () => {
     await expect(sheetsAppend.send(lead)).resolves.toEqual({ ok: false, error: "sheets error: quota_exceeded" });
   });
 });
+
+describe("sheets-append: відсутня змінна середовища", () => {
+  it("повертає помилку і не ходить у мережу без SHEETS_TOKEN", async () => {
+    const fetchMock = vi.fn(async () => new Response('{"status":"ok"}', { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    vi.stubEnv("SHEETS_TOKEN", "");
+
+    await expect(sheetsAppend.send(lead)).resolves.toEqual({
+      ok: false,
+      error: "missing environment variable SHEETS_TOKEN",
+    });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+});
