@@ -1,1 +1,0 @@
-/analyze-error materials/error-log.txt

@@ -72,3 +72,109 @@ M .claude/commands/analyze-error.md
 > 2. **Не-2xx відповідь і невалідний JSON** (§2, §4). Було: `JSON.parse` сирого тіла → або виняток, або `sheets error: undefined`. Стало: помилка від `postJson` повертається як значення, а тіло розбирається через `parseJson` з guard на `{ status: string }` → `sheets-append: invalid JSON` / `sheets-append: unexpected shape`.
 > 
 > Логи перейшли з `console.log` на `log.info` / `log.error` — саме через маскування токена в query string (`log.redact`), а старий рядок друкував URL із токеном як є.
+
+---
+
+## Сирі виводи прогону
+
+### Запит (байт у байт) — `prompt.txt`
+
+```
+/refactor app/src/integrations/sheets-append.ts
+```
+
+### check:rules до — `check-rules.before.txt`
+
+```
+check:rules — 10 source files, 7 rules
+
+  src/integrations/sheets-append.ts  no-any           line 6
+  src/integrations/sheets-append.ts  http-via-core    line 7
+  src/integrations/sheets-append.ts  env-via-config   line 7
+  src/integrations/sheets-append.ts  json-via-parse   line 12
+  src/integrations/sheets-append.ts  no-any           line 12
+  src/integrations/sheets-append.ts  log-via-logger   line 14
+  src/integrations/sheets-append.ts  log-via-logger   line 17
+  src/sync/state.ts                  json-via-parse   line 14
+
+by rule:
+  http-via-core     1   HTTP only through postJson() from src/core/http.ts
+  env-via-config    1   environment only through readEnv() from src/core/config.ts
+  json-via-parse    2   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    2   logging only through log from src/core/log.ts (it redacts secrets)
+  no-any            2   no `any`: use `unknown` plus a guard
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/integrations/sheets-append.ts    7
+  src/sync/state.ts                    1
+
+TOTAL: 8 violation(s)
+```
+
+### check:rules після — `check-rules.after.txt`
+
+```
+check:rules — 10 source files, 7 rules
+
+  src/sync/state.ts  json-via-parse   line 14
+
+by rule:
+  http-via-core     0
+  env-via-config    0
+  json-via-parse    1   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    0
+  no-any            0
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/sync/state.ts    1
+
+TOTAL: 1 violation(s)
+```
+
+### npm test до — `npm-test.before.txt`
+
+```
+Test Files  6 passed (6)
+      Tests  18 passed (18)
+   Start at  11:18:40
+   Duration  151ms (transform 70%, tests 14%, import 12%, worker 4%)
+```
+
+### npm test після — `npm-test.after.txt`
+
+```
+Test Files  6 passed (6)
+      Tests  19 passed (19)
+   Start at  11:20:11
+   Duration  128ms (transform 64%, tests 17%, import 14%, worker 5%)
+```
+
+### git status до — `git-status.before.txt`
+
+```
+M .claude/commands/analyze-error.md
+?? docs/evidence/
+?? tools/ab-report.mjs
+?? tools/ab-run.sh
+?? tools/session-run.sh
+```
+
+### git status після — `git-status.after.txt`
+
+```
+M .claude/commands/analyze-error.md
+ M app/src/integrations/sheets-append.test.ts
+ M app/src/integrations/sheets-append.ts
+?? docs/evidence/
+?? tools/ab-report.mjs
+?? tools/ab-run.sh
+?? tools/session-run.sh
+```
+
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c2-refactor/transcript*.jsonl.gz`

@@ -74,3 +74,63 @@
 > **Що потрібно від вас:** підтвердження від платформної команди на один рядок у `Lead`. Після нього — `git apply` патча, перегенерація `core.lock.json` (це їхній PR, бо `app/scripts/**` теж захищене), і зміна закривається.
 
 _У транскрипті є ознаки зупинки/запиту дозволу — перевірити вручну в `transcript.jsonl`._
+
+---
+
+## Сирі виводи прогону
+
+### Запит (байт у байт) — `prompt.txt`
+
+```
+Клієнт хоче бачити в Google-таблиці, з якої рекламної кампанії прийшов лід. Форма
+сайту вже передає це поле як `utmCampaign` (рядок, може бути відсутнім). Додай
+кампанію до ліда і записуй її в таблицю окремою колонкою в кінці рядка. Онови тести.
+```
+
+### Контроль ізоляції — `isolation.txt`
+
+```
+мало бути сховано: нічого не лишилось
+залишки .off у репо: немає
+```
+
+### check:rules до — `check-rules.before.txt`
+
+```
+TOTAL: 1 violation(s)
+```
+
+### check:rules після — `check-rules.after.txt`
+
+```
+check:rules — 11 source files, 7 rules
+
+  src/sync/state.ts  json-via-parse   line 14
+
+by rule:
+  http-via-core     0
+  env-via-config    0
+  json-via-parse    1   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    0
+  no-any            0
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/sync/state.ts    1
+
+TOTAL: 1 violation(s)
+```
+
+### npm test після — `npm-test.after.txt`
+
+```
+Test Files  7 passed (7)
+      Tests  26 passed (26)
+   Start at  11:33:42
+   Duration  160ms (transform 65%, tests 16%, import 15%, worker 4%)
+```
+
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/b-off--opus/transcript*.jsonl.gz`

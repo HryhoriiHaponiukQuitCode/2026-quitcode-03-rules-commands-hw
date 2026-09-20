@@ -138,3 +138,113 @@
 > **Зупиняюсь.** Скажіть, який варіант реалізувати: мінімальний із §6 повністю, чи лише пункти 1-2 (`state.ts`) без зміни політики коміту стану в `run.ts`.
 
 _У транскрипті є ознаки зупинки/запиту дозволу — перевірити вручну в `transcript.jsonl`._
+
+---
+
+## Сирі виводи прогону
+
+### Запит (байт у байт) — `prompt.txt`
+
+```
+/analyze-error materials/error-log.txt
+```
+
+### check:rules до — `check-rules.before.txt`
+
+```
+check:rules — 10 source files, 7 rules
+
+  src/integrations/sheets-append.ts  no-any           line 6
+  src/integrations/sheets-append.ts  http-via-core    line 7
+  src/integrations/sheets-append.ts  env-via-config   line 7
+  src/integrations/sheets-append.ts  json-via-parse   line 12
+  src/integrations/sheets-append.ts  no-any           line 12
+  src/integrations/sheets-append.ts  log-via-logger   line 14
+  src/integrations/sheets-append.ts  log-via-logger   line 17
+  src/sync/state.ts                  json-via-parse   line 14
+
+by rule:
+  http-via-core     1   HTTP only through postJson() from src/core/http.ts
+  env-via-config    1   environment only through readEnv() from src/core/config.ts
+  json-via-parse    2   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    2   logging only through log from src/core/log.ts (it redacts secrets)
+  no-any            2   no `any`: use `unknown` plus a guard
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/integrations/sheets-append.ts    7
+  src/sync/state.ts                    1
+
+TOTAL: 8 violation(s)
+```
+
+### check:rules після — `check-rules.after.txt`
+
+```
+check:rules — 10 source files, 7 rules
+
+  src/integrations/sheets-append.ts  no-any           line 6
+  src/integrations/sheets-append.ts  http-via-core    line 7
+  src/integrations/sheets-append.ts  env-via-config   line 7
+  src/integrations/sheets-append.ts  json-via-parse   line 12
+  src/integrations/sheets-append.ts  no-any           line 12
+  src/integrations/sheets-append.ts  log-via-logger   line 14
+  src/integrations/sheets-append.ts  log-via-logger   line 17
+  src/sync/state.ts                  json-via-parse   line 14
+
+by rule:
+  http-via-core     1   HTTP only through postJson() from src/core/http.ts
+  env-via-config    1   environment only through readEnv() from src/core/config.ts
+  json-via-parse    2   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    2   logging only through log from src/core/log.ts (it redacts secrets)
+  no-any            2   no `any`: use `unknown` plus a guard
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/integrations/sheets-append.ts    7
+  src/sync/state.ts                    1
+
+TOTAL: 8 violation(s)
+```
+
+### npm test до — `npm-test.before.txt`
+
+```
+Test Files  6 passed (6)
+      Tests  18 passed (18)
+   Start at  11:06:10
+   Duration  146ms (transform 66%, tests 15%, import 15%, worker 4%)
+```
+
+### npm test після — `npm-test.after.txt`
+
+```
+Test Files  6 passed (6)
+      Tests  18 passed (18)
+   Start at  11:09:06
+   Duration  141ms (transform 60%, import 19%, tests 16%, worker 5%)
+```
+
+### git status до — `git-status.before.txt`
+
+```
+?? docs/evidence/
+?? tools/ab-report.mjs
+?? tools/ab-run.sh
+?? tools/session-run.sh
+```
+
+### git status після — `git-status.after.txt`
+
+```
+?? docs/evidence/
+?? tools/ab-report.mjs
+?? tools/ab-run.sh
+?? tools/session-run.sh
+```
+
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c1-analyze-error/transcript*.jsonl.gz`

@@ -87,3 +87,108 @@ M .claude/commands/analyze-error.md
 > - Ядро, `app/scripts/`, `materials/` не чіпались; нових залежностей немає.
 > 
 > Коміт не робив — чекаю на вашу команду.
+
+---
+
+## Сирі виводи прогону
+
+### Запит (байт у байт) — `prompt.txt`
+
+```
+/generate-integration telegram-notify — сповіщення менеджерам у Telegram-чат через Bot API
+```
+
+### check:rules до — `check-rules.before.txt`
+
+```
+check:rules — 10 source files, 7 rules
+
+  src/sync/state.ts  json-via-parse   line 14
+
+by rule:
+  http-via-core     0
+  env-via-config    0
+  json-via-parse    1   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    0
+  no-any            0
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/sync/state.ts    1
+
+TOTAL: 1 violation(s)
+```
+
+### check:rules після — `check-rules.after.txt`
+
+```
+check:rules — 11 source files, 7 rules
+
+  src/sync/state.ts  json-via-parse   line 14
+
+by rule:
+  http-via-core     0
+  env-via-config    0
+  json-via-parse    1   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    0
+  no-any            0
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/sync/state.ts    1
+
+TOTAL: 1 violation(s)
+```
+
+### npm test до — `npm-test.before.txt`
+
+```
+Test Files  6 passed (6)
+      Tests  19 passed (19)
+   Start at  11:20:36
+   Duration  132ms (transform 52%, import 28%, tests 17%, worker 4%)
+```
+
+### npm test після — `npm-test.after.txt`
+
+```
+Test Files  7 passed (7)
+      Tests  26 passed (26)
+   Start at  11:22:31
+   Duration  152ms (transform 57%, import 21%, tests 18%, worker 4%)
+```
+
+### git status до — `git-status.before.txt`
+
+```
+M .claude/commands/analyze-error.md
+ M AGENTS.md
+ M app/src/integrations/sheets-append.test.ts
+ M app/src/integrations/sheets-append.ts
+?? docs/evidence/
+?? tools/ab-report.mjs
+?? tools/ab-run.sh
+?? tools/session-run.sh
+```
+
+### git status після — `git-status.after.txt`
+
+```
+M .claude/commands/analyze-error.md
+ M AGENTS.md
+ M app/src/integrations/index.ts
+ M app/src/integrations/sheets-append.test.ts
+ M app/src/integrations/sheets-append.ts
+?? app/src/integrations/telegram-notify.test.ts
+?? app/src/integrations/telegram-notify.ts
+?? docs/evidence/
+?? tools/ab-report.mjs
+?? tools/ab-run.sh
+?? tools/session-run.sh
+```
+
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c3-generate-integration/transcript*.jsonl.gz`

@@ -60,3 +60,141 @@ core.lock.json не змінено
 > - `npm run check:rules` — 1 violation, та сама, що й до змін (`json-via-parse` у `src/sync/state.ts:14`, не чіпав — поза скоупом). `core-untouched: 0`.
 > 
 > Якщо клієнту/команді принципово, щоб `utmCampaign` стояв прямо в `Lead`, це правка `src/core/types.ts` + перегенерація лока (`node scripts/check-rules.mjs --write-lock`) — скажіть, і я перенесу поле туди.
+
+---
+
+## Сирі виводи прогону
+
+### Запит (байт у байт) — `prompt.txt`
+
+```
+Клієнт хоче бачити в Google-таблиці, з якої рекламної кампанії прийшов лід. Форма
+сайту вже передає це поле як `utmCampaign` (рядок, може бути відсутнім). Додай
+кампанію до ліда і записуй її в таблицю окремою колонкою в кінці рядка. Онови тести.
+```
+
+### Контроль ізоляції — `isolation.txt`
+
+```
+.
+..
+app
+git: no
+```
+
+### check:rules до — `check-rules.before.txt`
+
+```
+TOTAL: 1 violation(s)
+```
+
+### check:rules після — `check-rules.after.txt`
+
+```
+check:rules — 12 source files, 7 rules
+
+  src/sync/state.ts  json-via-parse   line 14
+
+by rule:
+  http-via-core     0
+  env-via-config    0
+  json-via-parse    1   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    0
+  no-any            0
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/sync/state.ts    1
+
+TOTAL: 1 violation(s)
+```
+
+### npm test після — `npm-test.after.txt`
+
+```
+Test Files  8 passed (8)
+      Tests  30 passed (30)
+   Start at  11:47:16
+   Duration  165ms (transform 66%, tests 15%, import 14%, worker 5%)
+```
+
+### git status після — `git-status.txt`
+
+```
+core.lock.json не змінено
+  Files /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.test.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts differ
+  Files /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts differ
+  Only in /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src: leads
+```
+
+### Діф по app/ — `app.diff`
+
+```diff
+diff -ru /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.test.ts /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts
+--- /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.test.ts	2026-09-20 11:25:54
++++ /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts	2026-09-20 11:46:45
+@@ -1,5 +1,6 @@
+ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+ import type { Lead } from "../core/types.js";
++import type { LeadWithCampaign } from "../leads/campaign.js";
+ import sheetsAppend from "./sheets-append.js";
+ 
+ const lead: Lead = {
+@@ -32,7 +33,29 @@
+     const [url, init] = fetchMock.mock.calls[0]!;
+     expect(url).toBe("https://sheets.example.test/append?token=fake-sheets-token-0000");
+     expect(JSON.parse(String(init?.body))).toEqual({
+-      values: [["2026-09-10T09:30:00.000Z", "Андрій Тестовий", "andrii@studio-nova.example.test", "", "instagram"]],
++      values: [["2026-09-10T09:30:00.000Z", "Андрій Тестовий", "andrii@studio-nova.example.test", "", "instagram", ""]],
++    });
++  });
++
++  it("пише кампанію останньою колонкою рядка", async () => {
++    const fetchMock = vi.fn(async (_url: string, _init?: RequestInit) => new Response('{"status":"ok"}', { status: 200 }));
++    vi.stubGlobal("fetch", fetchMock);
++    const leadFromCampaign: LeadWithCampaign = { ...lead, utmCampaign: "spring_sale_2026" };
++
++    await expect(sheetsAppend.send(leadFromCampaign)).resolves.toEqual({ ok: true, value: undefined });
++
++    const [, init] = fetchMock.mock.calls[0]!;
++    expect(JSON.parse(String(init?.body))).toEqual({
++      values: [
++        [
++          "2026-09-10T09:30:00.000Z",
++          "Андрій Тестовий",
++          "andrii@studio-nova.example.test",
++          "",
++          "instagram",
++          "spring_sale_2026",
++        ],
++      ],
+     });
+   });
+ 
+diff -ru /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts
+--- /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts	2026-09-20 11:25:54
++++ /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts	2026-09-20 11:46:37
+@@ -5,6 +5,7 @@
+ import { log } from "../core/log.js";
+ import { isRecord, isString, parseJson } from "../core/parse.js";
+ import type { Integration, Lead, Result } from "../core/types.js";
++import { campaignOf } from "../leads/campaign.js";
+ 
+ interface SheetsResponse {
+   status: string;
+@@ -23,7 +24,7 @@
+     const token = readEnv("SHEETS_TOKEN");
+     if (!token.ok) return token;
+ 
+-    const row = [lead.createdAt, lead.name, lead.email, lead.phone ?? "", lead.source];
++    const row = [lead.createdAt, lead.name, lead.email, lead.phone ?? "", lead.source, campaignOf(lead)];
+     const response = await postJson(`${webhookUrl.value}?token=${token.value}`, { values: [row] });
+     if (!response.ok) {
+       log.error(`sheets-append: lead ${lead.id} not delivered: ${response.error}`);
+Only in /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src: leads
+```
+
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/clean-off--opus/transcript*.jsonl.gz`

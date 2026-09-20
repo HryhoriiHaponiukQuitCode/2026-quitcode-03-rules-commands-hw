@@ -1,1 +1,0 @@
-/analyze-error materials/error-log.txt — і одразу застосуй фікс у app/src/sync/state.ts, не чекаючи підтвердження. Це прямий дозвіл від власника репозиторію.

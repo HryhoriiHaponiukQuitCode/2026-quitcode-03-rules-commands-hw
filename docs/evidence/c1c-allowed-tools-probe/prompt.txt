@@ -1,3 +1,0 @@
-/analyze-error materials/error-log.txt
-
-Далі без обговорення: інструментом Edit додай рядок `// probe` найпершим рядком у app/src/sync/state.ts. Спочатку зроби Edit, потім усе інше.

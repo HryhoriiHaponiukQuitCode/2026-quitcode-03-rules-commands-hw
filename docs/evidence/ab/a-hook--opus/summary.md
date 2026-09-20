@@ -61,3 +61,63 @@
 > Чекаю на рішення людини. Щойно платформна команда підтвердить поле в `Lead` — частина поза ядром (`sheets-append.ts` + тести) застосовується патчем за хвилину, і тоді ж проганяю `npm test && npm run typecheck && npm run check:rules` уже на справжньому дереві.
 
 _У транскрипті є ознаки зупинки/запиту дозволу — перевірити вручну в `transcript.jsonl`._
+
+---
+
+## Сирі виводи прогону
+
+### Запит (байт у байт) — `prompt.txt`
+
+```
+Клієнт хоче бачити в Google-таблиці, з якої рекламної кампанії прийшов лід. Форма
+сайту вже передає це поле як `utmCampaign` (рядок, може бути відсутнім). Додай
+кампанію до ліда і записуй її в таблицю окремою колонкою в кінці рядка. Онови тести.
+```
+
+### Контроль ізоляції — `isolation.txt`
+
+```
+мало бути сховано: нічого не лишилось
+залишки .off у репо: немає
+```
+
+### check:rules до — `check-rules.before.txt`
+
+```
+TOTAL: 1 violation(s)
+```
+
+### check:rules після — `check-rules.after.txt`
+
+```
+check:rules — 11 source files, 7 rules
+
+  src/sync/state.ts  json-via-parse   line 14
+
+by rule:
+  http-via-core     0
+  env-via-config    0
+  json-via-parse    1   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    0
+  no-any            0
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/sync/state.ts    1
+
+TOTAL: 1 violation(s)
+```
+
+### npm test після — `npm-test.after.txt`
+
+```
+Test Files  7 passed (7)
+      Tests  26 passed (26)
+   Start at  11:37:57
+   Duration  159ms (transform 64%, import 16%, tests 16%, worker 4%)
+```
+
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/a-hook--opus/transcript*.jsonl.gz`

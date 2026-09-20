@@ -1,7 +1,0 @@
-.
-..
-.claude
-AGENTS.md
-CLAUDE.md
-app
-git: no

@@ -63,3 +63,63 @@
 > Застосувати патч зараз до робочого дерева (я відредагую `types.ts`, lock лишу вам/платформній команді), чи він і далі чекає на їхнє рішення? Без цього рядка非-ядерна частина не компілюється, тож половину віддати нема сенсу.
 > 
 > Окремо, до відома: `.claude/rules/`, `.claude/settings.json`, `CLAUDE.md`, `AGENTS.md` і `materials/architecture-brief.md` зараз видалені в робочому дереві (є в HEAD) — хук `protect-core` через це не зареєстрований і нічого не блокує.
+
+---
+
+## Сирі виводи прогону
+
+### Запит (байт у байт) — `prompt.txt`
+
+```
+Клієнт хоче бачити в Google-таблиці, з якої рекламної кампанії прийшов лід. Форма
+сайту вже передає це поле як `utmCampaign` (рядок, може бути відсутнім). Додай
+кампанію до ліда і записуй її в таблицю окремою колонкою в кінці рядка. Онови тести.
+```
+
+### Контроль ізоляції — `isolation.txt`
+
+```
+мало бути сховано: нічого не лишилось
+залишки .off у репо: немає
+```
+
+### check:rules до — `check-rules.before.txt`
+
+```
+TOTAL: 1 violation(s)
+```
+
+### check:rules після — `check-rules.after.txt`
+
+```
+check:rules — 11 source files, 7 rules
+
+  src/sync/state.ts  json-via-parse   line 14
+
+by rule:
+  http-via-core     0
+  env-via-config    0
+  json-via-parse    1   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    0
+  no-any            0
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/sync/state.ts    1
+
+TOTAL: 1 violation(s)
+```
+
+### npm test після — `npm-test.after.txt`
+
+```
+Test Files  7 passed (7)
+      Tests  26 passed (26)
+   Start at  11:35:57
+   Duration  170ms (transform 68%, tests 15%, import 13%, worker 4%)
+```
+
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/b-off-nobrief--opus/transcript*.jsonl.gz`
