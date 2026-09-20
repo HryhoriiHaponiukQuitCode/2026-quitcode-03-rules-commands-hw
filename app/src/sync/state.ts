@@ -1,22 +1,61 @@
 // Стан синхронізації між запусками: ліди, створені після lastSyncedAt, ще не розіслані.
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+//
+// Цей файл — місце нічного інциденту 10.09.2026 (materials/error-log.txt).
+// Було дві вади, і саме їх поєднання перетворило разове переповнення диска
+// на дев'ять годин дублікатів:
+//   1) writeFileSync відкриває файл із прапорцем `w` — спершу обрізає, потім
+//      пише. Падіння на ENOSPC лишало на диску не старий стан, а ПОРОЖНІЙ файл.
+//   2) `catch { return INITIAL_STATE }` ковтав помилку розбору й мовчки
+//      повертав 1970 — тобто «усі ліди нові».
+// Тепер запис атомарний (tmp + rename), а нечитабельний стан — це помилка як
+// значення, яку видно в журналі (`.claude/rules/conventions.md` §1 і §4).
+import { existsSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
+import { isRecord, isString, parseJson } from "../core/parse.js";
+import type { Result } from "../core/types.js";
 
 export interface SyncState {
   /** ISO-8601, UTC. */
   lastSyncedAt: string;
 }
 
-const INITIAL_STATE: SyncState = { lastSyncedAt: "1970-01-01T00:00:00.000Z" };
+export const INITIAL_STATE: SyncState = { lastSyncedAt: "1970-01-01T00:00:00.000Z" };
 
-export function loadState(path: string): SyncState {
-  if (!existsSync(path)) return { ...INITIAL_STATE };
+const isSyncState = (value: unknown): value is SyncState =>
+  isRecord(value) && isString(value.lastSyncedAt);
+
+const reason = (error: unknown): string => (error instanceof Error ? error.message : String(error));
+
+/**
+ * Відсутній файл — це перший запуск, а не помилка.
+ * Файл, який є, але не читається чи не має очікуваної форми, — помилка:
+ * мовчки почати з 1970 означає розіслати всю базу лідів заново.
+ */
+export function loadState(path: string): Result<SyncState> {
+  if (!existsSync(path)) return { ok: true, value: { ...INITIAL_STATE } };
+
+  let text: string;
   try {
-    return JSON.parse(readFileSync(path, "utf8"));
-  } catch {
-    return { ...INITIAL_STATE };
+    text = readFileSync(path, "utf8");
+  } catch (error) {
+    return { ok: false, error: `sync-state: не вдалось прочитати ${path}: ${reason(error)}` };
   }
+
+  return parseJson(text, isSyncState, "sync-state");
 }
 
-export function saveState(path: string, state: SyncState): void {
-  writeFileSync(path, JSON.stringify(state, null, 2));
+/**
+ * Атомарний запис: спершу у тимчасовий файл, потім rename у межах тієї самої
+ * файлової системи. Обрив на будь-якому кроці лишає попередній стан цілим —
+ * саме цього бракувало в ніч інциденту.
+ */
+export function saveState(path: string, state: SyncState): Result<void> {
+  const tmp = `${path}.tmp`;
+  try {
+    writeFileSync(tmp, JSON.stringify(state, null, 2));
+    renameSync(tmp, path);
+    return { ok: true, value: undefined };
+  } catch (error) {
+    rmSync(tmp, { force: true });
+    return { ok: false, error: `sync-state: не вдалось зберегти ${path}: ${reason(error)}` };
+  }
 }

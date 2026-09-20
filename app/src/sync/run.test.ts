@@ -62,4 +62,46 @@ describe("runSync", () => {
 
     expect(sent).toEqual(["ld_0002", "ld_0003"]);
   });
+
+  // Відтворення нічного інциденту: пошкоджений файл стану більше НЕ означає
+  // «розіслати все заново». Саме цей тест падав би до фікса.
+  it("не розсилає нічого, якщо стан не читається", async () => {
+    const sent: string[] = [];
+    const statePath = join(dir, "sync-state.json");
+    writeFileSync(statePath, "");
+
+    const report = await runSync(leads, [recordingIntegration(sent)], statePath);
+
+    expect(sent).toEqual([]);
+    expect(report).toEqual({ pending: 0, delivered: 0, failed: 0 });
+  });
+
+  it("не затирає пошкоджений стан «початковим» — файл лишається для розбору людиною", async () => {
+    const statePath = join(dir, "sync-state.json");
+    writeFileSync(statePath, "не json");
+
+    await runSync(leads, [recordingIntegration([])], statePath);
+
+    expect(readFileSync(statePath, "utf8")).toBe("не json");
+  });
+
+  // Запуск, убитий планувальником на 4m30s, не має втрачати прогрес:
+  // раніше стан зберігався один раз у кінці й до нього справа не доходила.
+  it("зберігає прогрес після кожного ліда, а не лише в кінці", async () => {
+    const statePath = join(dir, "sync-state.json");
+    const killed: Integration = {
+      name: "killed-midway",
+      requiredEnv: [],
+      send: async (lead) => {
+        if (lead.id === "ld_0003") throw new Error("SIGKILL");
+        return { ok: true, value: undefined };
+      },
+    };
+
+    await expect(runSync(leads, [killed], statePath)).rejects.toThrow("SIGKILL");
+
+    expect(JSON.parse(readFileSync(statePath, "utf8"))).toEqual({
+      lastSyncedAt: "2026-09-09T11:00:00.000Z",
+    });
+  });
 });
