@@ -86,7 +86,13 @@ for (const dir of runs) {
 }
 
 if (!DRY && archived.length) {
-  execFileSync("tar", ["-cf", join(EVIDENCE, ARCHIVE), "-C", ROOT, ...archived]);
+  const archivePath = join(EVIDENCE, ARCHIVE);
+  // ВАЖЛИВО: `tar -cf` перезаписує архів. При повторному пакуванні (коли старі
+  // транскрипти вже прибрані з дерева) це знищило б усі попередні прогони —
+  // рівно це й сталося один раз, відновлювати довелось із git. Тому для
+  // наявного архіву — дозапис, а не створення заново.
+  const mode = existsSync(archivePath) ? "-rf" : "-cf";
+  execFileSync("tar", [mode, archivePath, "-C", ROOT, ...archived]);
   for (const f of archived) rmSync(join(ROOT, f));
 }
 
