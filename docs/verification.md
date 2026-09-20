@@ -227,7 +227,7 @@ $ grep -nE "fetch\(|process\.env|JSON\.parse\(|console\.|: any|as any" app/src/i
 
 > Це рівно той дефект, який у звіті за WS2 дав 19 із 24 major на потік:
 > текст обіцяє гарантію, якої в артефакті немає. Тому в репозиторії лежить
-> `tools/check-rule-claims.mjs` — 7 тверджень правил звіряються з кодом
+> `tools/check-rule-claims.mjs` — 8 тверджень правил звіряються з кодом
 > автоматично (`node tools/check-rule-claims.mjs`).
 
 ---
@@ -391,7 +391,7 @@ Acceptance criteria команди `/refactor` вимагали збережен
 
 ### Тести обходів
 
-`node .claude/hooks/test-protect-core.mjs` — **47 кейсів, 0 провалів**.
+`node .claude/hooks/test-protect-core.mjs` — **54 кейси, 0 провалів**.
 Серед них: `sed -i`, `>`, `>>`, `tee`, `cp`, `mv`, `rm`, `patch`,
 `node -e "fs.writeFileSync"`, `python3 -c "Path(...).write_text"`,
 `git checkout <гілка> -- app/src/core`, `git apply`, `--write-lock`
