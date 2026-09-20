@@ -29,12 +29,27 @@ mkdir -p "$OUT"
 PROMPT="$(awk '/^---$/{n++; next} n==1' "$TASK_FILE" | sed '/^$/d')"
 [ -z "$PROMPT" ] && { echo "порожній запит із $TASK_FILE"; exit 1; }
 
-hide() { [ -e "$1" ] && mv "$1" "$1.off" && echo "  сховано: $1"; }
-show() { [ -e "$1.off" ] && mv "$1.off" "$1"; }
+# Приховане ВИНОСИТЬСЯ ЗА МЕЖІ РЕПОЗИТОРІЮ, а не перейменовується в `.off`.
+# Чому: перейменований файл лишається на диску й читається. У першому прогоні
+# b-off-nobrief агент відкрив `.claude/rules.off/do-not-touch.md` і
+# `.claude/rules.off/conventions.md` — тобто «прогін без правил» вимірював
+# правила. Доказ: docs/evidence/ab/_first-attempt-leak/.
+HIDE_DIR="$(mktemp -d "${TMPDIR:-/tmp}/ws03-ab-hidden.XXXXXX")"
+hide() {
+  mkdir -p "$HIDE_DIR"          # restore_all міг його прибрати
+  [ -e "$1" ] || return 0
+  local dest="$HIDE_DIR/$(printf '%s' "$1" | tr '/' '~')"
+  mv "$1" "$dest" && echo "  винесено з репо: $1"
+}
+show() {
+  local src="$HIDE_DIR/$(printf '%s' "$1" | tr '/' '~')"
+  [ -e "$src" ] && mkdir -p "$(dirname "$1")" && mv "$src" "$1"
+  return 0
+}
 
 ALL=(CLAUDE.md AGENTS.md .claude/rules .claude/commands .claude/settings.json .cursor/hooks.json materials/architecture-brief.md)
 restore_all() { for p in "${ALL[@]}"; do show "$p"; done; }
-trap 'restore_all' EXIT
+trap 'restore_all; rmdir "$HIDE_DIR" 2>/dev/null || true' EXIT
 
 echo "═══ прогін ${STAMP} ═══"
 echo "── чистий старт"
@@ -49,6 +64,23 @@ case "$ARM" in
   a-hook)        : ;;                                                      # усе увімкнено
   *) echo "невідомий arm: $ARM"; exit 1 ;;
 esac
+
+echo "── контроль ізоляції"
+# Прогін недійсний, якщо те, що мало бути сховане, лишилось читабельним у репо.
+# Перша спроба саме так і зіпсувалась: див. docs/evidence/ab/_first-attempt-leak/.
+case "$ARM" in
+  b-off|b-off-nobrief) MUST_BE_GONE=(CLAUDE.md AGENTS.md .claude/rules .claude/commands .claude/settings.json) ;;
+  a-on)                MUST_BE_GONE=(.claude/settings.json) ;;
+  a-hook)              MUST_BE_GONE=() ;;
+esac
+[ "$ARM" = "b-off-nobrief" ] && MUST_BE_GONE+=(materials/architecture-brief.md)
+LEAK=""
+for p in "${MUST_BE_GONE[@]:-}"; do [ -n "$p" ] && [ -e "$p" ] && LEAK="$LEAK $p"; done
+STRAY=$(ls -d ./*.off .claude/*.off .cursor/*.off materials/*.off 2>/dev/null | tr '\n' ' ')
+printf 'мало бути сховано:%s\nзалишки .off у репо: %s\n' "${LEAK:- нічого не лишилось}" "${STRAY:-немає}" | tee "$OUT/isolation.txt"
+if [ -n "$LEAK" ] || [ -n "$STRAY" ]; then
+  echo "✗ ПРОГІН НЕДІЙСНИЙ: агент зміг би прочитати$LEAK $STRAY"; exit 1
+fi
 
 echo "── базова лінія"
 (cd app && npm run --silent check:rules | tail -1) | tee "$OUT/check-rules.before.txt"

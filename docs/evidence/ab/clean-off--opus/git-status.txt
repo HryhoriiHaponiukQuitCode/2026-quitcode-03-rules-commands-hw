@@ -1,0 +1,4 @@
+core.lock.json не змінено
+  Files /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.test.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts differ
+  Files /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts differ
+  Only in /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src: leads

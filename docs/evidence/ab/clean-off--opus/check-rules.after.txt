@@ -1,0 +1,17 @@
+check:rules — 12 source files, 7 rules
+
+  src/sync/state.ts  json-via-parse   line 14
+
+by rule:
+  http-via-core     0
+  env-via-config    0
+  json-via-parse    1   JSON only through parseJson(text, guard) from src/core/parse.ts
+  log-via-logger    0
+  no-any            0
+  no-new-deps       0
+  core-untouched    0
+
+by file:
+  src/sync/state.ts    1
+
+TOTAL: 1 violation(s)

@@ -68,6 +68,13 @@ const CASES = [
   ["схожа назва, інший шлях", edit("docs/materials-notes.md"), false],
   ["core у назві файлу, не в шляху", edit("app/src/integrations/core-crm.ts"), false],
   ["файл поза репозиторієм", edit("/tmp/scratch/core/log.ts"), false],
+
+  // Знайдено реальним прогоном e2-hook-block-no-rules: `2>/dev/null` читалось
+  // як перенаправлення у файл, і читання ядра блокувалось помилково.
+  ["читання ядра з 2>/dev/null", bash("cat app/src/core/http.ts 2>/dev/null"), false],
+  ["складене читання з 2>/dev/null", bash('head -5 app/src/core/log.ts && cat .claude/settings.json 2>/dev/null | head -60'), false],
+  ["злиття потоків 2>&1", bash("cat app/src/core/log.ts 2>&1 | head"), false],
+  ["справжній запис попри 2>/dev/null", bash("echo x > app/src/core/log.ts 2>/dev/null"), true],
 ];
 
 let failed = 0;

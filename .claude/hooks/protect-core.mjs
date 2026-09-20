@@ -37,7 +37,8 @@ const WRITE_TOOLS = new Set(["Edit", "Write", "NotebookEdit", "MultiEdit", "Upda
 /** Ознаки запису в рядку команди Bash. Свідомо широко: хибне спрацювання
  *  коштує одного уточнення, пропуск — порушення правила, яке ми ж і пишемо. */
 const WRITE_IN_SHELL = [
-  />>?\s*['"]?[\w./~-]/,                       // > file, >> file
+  // > file, >> file — але не `2>/dev/null` і не `2>&1`: це не запис у файл проєкту.
+  />>?\s*['"]?(?!\/dev\/|&)[\w./~-]/,
   /\bsed\b[^|;]*\s-[a-z]*i\b/,                 // sed -i, sed -i.bak
   /\b(tee|cp|mv|rm|rmdir|patch|truncate|dd|install|ln|touch|mkdir|chmod|chown|shred|unlink)\b/,
   /\bgit\s+(checkout|restore|apply|rm|mv|clean|stash|revert|reset\s+--hard)\b/,
