@@ -140,6 +140,12 @@ check("команди: description, ціль, acceptance criteria, stop", () => 
   return `${files.length} команд`;
 });
 
+// Шляхи, які правила згадують САМЕ ЯК ЗАБОРОНЕНІ: вони не повинні існувати.
+// Без цього списку перевірка 7 лаялась би на приклад із architecture.md.
+const KNOWN_ABSENT = new Map([
+  ["app/src/leads", "приклад забороненого четвертого шару з architecture.md"],
+]);
+
 // 7. Усі шляхи репо, згадані в правилах і AGENTS.md, справді існують.
 check("посилання на файли в правилах не «висять»", () => {
   const sources = [
@@ -153,14 +159,25 @@ check("посилання на файли в правилах не «висят�
   const dead = [];
   for (const source of sources) {
     const text = read(source);
-    for (const [, path] of text.matchAll(/`((?:app|docs|materials|tools|\.claude|\.github)\/[\w./-]+)`/g)) {
-      if (path.includes("*") || path.endsWith("/")) continue;
-      if (path.includes("<") || /kebab-name|name\./.test(path)) continue;
-      if (!existsSync(join(ROOT, path))) dead.push(`${source} → ${path}`);
+    for (const [, path] of text.matchAll(/`((?:app|docs|materials|tools|\.claude|\.cursor|\.github)\/[\w./-]+)`/g)) {
+      if (path.includes("*")) continue;
+      const clean = path.replace(/\/$/, "");
+      if (clean.includes("<") || /kebab-name|name\./.test(clean)) continue;
+      if (KNOWN_ABSENT.has(clean)) continue;
+      if (!existsSync(join(ROOT, clean))) dead.push(`${source} → ${path}`);
     }
   }
   if (dead.length) throw new Error(dead.join("; "));
   return `${sources.length} файлів перевірено`;
+});
+
+// 8. Заборонені шляхи справді відсутні — правило описує реальність, а не намір.
+check("заборонені правилом шляхи не з'явились у репо", () => {
+  const appeared = [...KNOWN_ABSENT.entries()]
+    .filter(([path]) => existsSync(join(ROOT, path)))
+    .map(([path, why]) => `${path} (${why})`);
+  if (appeared.length) throw new Error(`правило забороняє, а воно є: ${appeared.join(", ")}`);
+  return `${KNOWN_ABSENT.size} шляхів`;
 });
 
 if (!quiet) {

@@ -16,6 +16,28 @@
 
 ---
 
+## Task A — чи справді працює `paths:` у правилах
+
+Режим застосування правила легко оголосити й важко довести. `do-not-touch.md`
+без frontmatter перевірено в Task B нижче. Тут — друга половина: чи
+`architecture.md` і `conventions.md` із `paths: app/src/**/*.ts` справді
+підтягуються, коли агент бере файл застосунку, і чи їх **немає**, коли не бере.
+
+Питання підібране так, що відповідь існує лише в `conventions.md` — пункт 4
+розділу «Правило». Обидва прогони на `sonnet`, інструменти запису й пошуку
+вимкнені (`--disallowedTools`), щоб агент не міг дістати правило обхідним шляхом.
+
+| Прогін | Що дозволено | Що зробив агент | Відповідь |
+|---|---|---|---|
+| `a1-paths-rule-probe` | лише `Read`, з прямою забороною відкривати будь-що, крім `app/src/sync/state.ts` | прочитав **рівно один файл** — `app/src/sync/state.ts` (видно в транскрипті) | **дослівна цитата §4** про `parseJson` і заборону тихого fallback |
+| `a1-paths-rule-probe-negative` | читання вимкнене повністю | нічого не відкривав | **«НЕМАЄ В КОНТЕКСТІ.»** |
+
+Отже `paths` працює в обидва боки: правило приходить разом із файлом, якому
+воно адресоване, і не висить у контексті решту часу. Сліди —
+`docs/evidence/a1-paths-rule-probe/` і `…-negative/`.
+
+---
+
 ## Task B — чи бачить інструмент AGENTS.md
 
 ### Як перевіряв
@@ -203,7 +225,16 @@ $ grep -nE "fetch\(|process\.env|JSON\.parse\(|console\.|: any|as any" app/src/i
 
 **Файли:** `.claude/settings.json` (`PreToolUse`, matcher
 `Edit|Write|NotebookEdit|MultiEdit|Bash`), `.claude/hooks/protect-core.mjs`,
-`.cursor/hooks.json` (той самий скрипт), `.claude/hooks/test-protect-core.mjs`.
+`.claude/hooks/test-protect-core.mjs`, `.cursor/hooks.json`.
+
+> **Чесно про `.cursor/hooks.json`: у Cursor він НЕ перевірявся.** Формат узято
+> з опису в `docs/walkthrough.md` (Task E), сам Cursor у мене не встановлений,
+> тож я не бачив ні каналу виводу Hooks, ні реальної форми вхідного JSON — а
+> walkthrough прямо попереджає, що її треба звірити на місці. Перевірено лише
+> те, що файл — валідний JSON і що скрипт, на який він вказує, читає шлях із
+> кількох можливих полів (`file_path`, `path`, `target_file`, `filePath`,
+> `command`), тож має шанс підійти без змін. Вважати це робочим хуком для
+> Cursor до прогону в самому Cursor не можна.
 
 ### Спроба 1 — правило спрацювало раніше за хук
 
