@@ -26,9 +26,9 @@
 - `app/src/core/parse.ts`
 - `app/src/core/log.ts`
 - `.claude/rules/architecture.md`
-- `src/integrations/telegram-notify.ts`
-- `src/integrations/telegram-notify.test.ts`
-- `src/integrations/index.ts`
+- `app/src/integrations/telegram-notify.ts`
+- `app/src/integrations/telegram-notify.test.ts`
+- `app/src/integrations/index.ts`
 - `app/src/integrations/telegram-notify.ts`
 
 **Виклики інструментів:** Bash×10
@@ -189,6 +189,9 @@ M .claude/commands/analyze-error.md
 ?? tools/session-run.sh
 ```
 
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c3-generate-integration/transcript*.jsonl.gz`
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c3-generate-integration/transcript*.jsonl.gz`

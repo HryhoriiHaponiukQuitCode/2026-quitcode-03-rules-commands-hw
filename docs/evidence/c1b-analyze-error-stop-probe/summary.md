@@ -32,3 +32,6 @@
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c1b-analyze-error-stop-probe/transcript*.jsonl.gz`
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c1b-analyze-error-stop-probe/transcript*.jsonl.gz`

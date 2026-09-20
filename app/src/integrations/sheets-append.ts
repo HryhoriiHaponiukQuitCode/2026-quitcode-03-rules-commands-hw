@@ -24,7 +24,12 @@ const sheetsAppend: Integration = {
     if (!token.ok) return token;
 
     const row = [lead.createdAt, lead.name, lead.email, lead.phone ?? "", lead.source];
-    const response = await postJson(`${webhookUrl.value}?token=${token.value}`, { values: [row] });
+    // retries: 0 — свідомо. Додати рядок у таблицю НЕ ідемпотентно: якщо запит
+    // дійшов, а відповідь загубилась, повтор допише той самий лід удруге.
+    // Саме дублікати в таблиці були скаргою клієнта в інциденті 10.09
+    // (materials/error-log.txt). До рефакторингу цей модуль ходив одним
+    // fetch без повторів — поведінку збережено навмисно.
+    const response = await postJson(`${webhookUrl.value}?token=${token.value}`, { values: [row] }, { retries: 0 });
     if (!response.ok) {
       log.error(`sheets-append: lead ${lead.id} not delivered: ${response.error}`);
       return response;

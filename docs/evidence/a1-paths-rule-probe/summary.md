@@ -14,3 +14,6 @@
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/a1-paths-rule-probe/transcript*.jsonl.gz`
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/a1-paths-rule-probe/transcript*.jsonl.gz`

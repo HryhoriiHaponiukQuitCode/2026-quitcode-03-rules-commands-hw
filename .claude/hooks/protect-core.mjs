@@ -20,7 +20,8 @@
 // той самий скрипт, той самий код виходу.
 //
 // Тести: node .claude/hooks/test-protect-core.mjs — запускати після кожної зміни.
-import { isAbsolute, relative, resolve, sep } from "node:path";
+import { existsSync, realpathSync } from "node:fs";
+import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
 
 /** Шляхи, у які не можна писати. Джерело: materials/architecture-brief.md. */
 export const PROTECTED = [
@@ -53,11 +54,33 @@ const PATH_FIELDS = ["file_path", "path", "notebook_path", "target_file", "fileP
 
 const projectRoot = () => resolve(process.env.CLAUDE_PROJECT_DIR || process.cwd());
 
-/** Чи веде шлях у захищену зону — після нормалізації `..` і символів шляху. */
+/**
+ * Справжній шлях призначення: `resolve()` прибирає `..`, але НЕ розкриває
+ * symlink. Без цього `ln -s app/src/core alias` + `Write alias/log.ts`
+ * проходить перевірку й пише в ядро. Тому канонізуємо найближчого предка,
+ * який існує (сам файл може ще не існувати), і дописуємо решту шляху.
+ */
+function canonical(absolute) {
+  let head = absolute;
+  const tail = [];
+  while (!existsSync(head)) {
+    const parent = dirname(head);
+    if (parent === head) return absolute;   // дійшли до кореня
+    tail.unshift(head.slice(parent.length + 1));
+    head = parent;
+  }
+  try {
+    return resolve(realpathSync(head), ...tail);
+  } catch {
+    return absolute;
+  }
+}
+
+/** Чи веде шлях у захищену зону — після нормалізації `..` і розкриття symlink. */
 export function hit(rawPath, root = projectRoot(), cwd = root) {
   if (typeof rawPath !== "string" || rawPath.trim() === "") return null;
-  const absolute = isAbsolute(rawPath) ? resolve(rawPath) : resolve(cwd, rawPath);
-  const rel = relative(root, absolute);
+  const absolute = canonical(isAbsolute(rawPath) ? resolve(rawPath) : resolve(cwd, rawPath));
+  const rel = relative(canonical(root), absolute);
   // Шлях поза репозиторієм цей хук не стосується.
   if (rel.startsWith("..") || isAbsolute(rel)) return null;
   const posix = rel.split(sep).join("/");
@@ -66,21 +89,45 @@ export function hit(rawPath, root = projectRoot(), cwd = root) {
   );
 }
 
-/** Чи згадує команда Bash захищений шлях — у будь-якій формі написання.
- *  Ліва межа включає `/`, щоб ловити абсолютні шляхи (`/Users/.../app/src/core`).
- *  `cd app && ...` зсуває корінь, тому шляхи всередині `app/` перевіряються
- *  ще й без цього префікса. */
-function pathsInCommand(command) {
-  const insideApp = /\bcd\s+(?:\.\/)?app\b/.test(command);
+/**
+ * Куди веде команда Bash. Літеральний пошук тексту «app/src/core» недостатній:
+ * `echo x > app/src/integrations/../core/log.ts` його не містить, а пише саме
+ * туди. Тому з команди дістаються всі схожі на шлях токени, і КОЖЕН
+ * проганяється через hit() — там і `..`, і symlink.
+ *
+ * Корінь для відносних шляхів неоднозначний (`cd app && …` зсуває його), тому
+ * перевіряються обидва варіанти: від кореня репо і від app/.
+ */
+function pathsInCommand(command, root = projectRoot()) {
   const found = [];
-  const mentions = (candidate) => {
-    const escaped = candidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp(`(^|[^\\w.-])(\\./)?${escaped}([/\\s'"\`;)|&]|$)`).test(command);
-  };
+  const seen = new Set();
+  // Токени: рвемо по пробілах і операторах оболонки, знімаємо лапки й оператори.
+  const tokens = command
+    .split(/[\s;|&()<>]+/)
+    .map((t) => t.replace(/^['"`]+|['"`]+$/g, "").replace(/^[>&]+/, ""))
+    .filter((t) => t && !t.startsWith("-") && (t.includes("/") || t.includes(".")));
+
+  for (const token of tokens) {
+    if (token.startsWith("/dev/")) continue;
+    for (const base of [root, resolve(root, "app")]) {
+      const p = hit(token, root, base);
+      if (p && !seen.has(p.path)) { seen.add(p.path); found.push(p); }
+    }
+  }
+
+  // Токенізація по пробілах губить шляхи з пробілами всередині (а корінь репо
+  // цілком може лежати в «…/Work Folder/…»). Тому додатково — літеральний
+  // пошук, але ЛИШЕ в абсолютній формі: відносні шляхи пробілів тут не мають і
+  // вже коректно нормалізовані токенами разом із `..`. Інакше команда
+  // `echo x > app/src/core/../integrations/tmp.ts` блокувалась би помилково.
   for (const p of PROTECTED) {
-    const forms = [p.path];
-    if (insideApp && p.path.startsWith("app/")) forms.push(p.path.slice("app/".length));
-    if (forms.some(mentions)) found.push(p);
+    if (seen.has(p.path)) continue;
+    const forms = [resolve(root, p.path), resolve(root, "app", p.path.replace(/^app\//, ""))];
+    const matched = forms.some((form) => {
+      const escaped = form.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return new RegExp(`(^|[^\\w.-])(\\./)?${escaped}([/\\s'"\`;)|&]|$)`).test(command);
+    });
+    if (matched) { seen.add(p.path); found.push(p); }
   }
   return found;
 }

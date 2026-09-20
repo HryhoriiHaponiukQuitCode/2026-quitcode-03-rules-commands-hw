@@ -48,8 +48,14 @@ const filesFrom = (u) => {
   }
   return [];
 };
+// Агент часто робить `cd app && cat src/…`, і шлях у команді відносний до app/.
+// Без цієї нормалізації перелік прочитаних файлів змішує два корені.
+const fromRepoRoot = (f) => {
+  const clean = f.replace(process.cwd() + "/", "");
+  return /^(src|scripts)\//.test(clean) ? `app/${clean}` : clean;
+};
 const filesReadBefore = [...new Set(
-  beforeFirstWrite.flatMap(filesFrom).map((f) => f.replace(process.cwd() + "/", "")).filter(Boolean),
+  beforeFirstWrite.flatMap(filesFrom).map(fromRepoRoot).filter(Boolean),
 )];
 
 const byTool = {};

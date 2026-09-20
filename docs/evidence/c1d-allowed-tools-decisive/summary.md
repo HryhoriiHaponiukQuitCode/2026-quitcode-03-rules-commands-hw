@@ -33,3 +33,6 @@ probe
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c1d-allowed-tools-decisive/transcript*.jsonl.gz`
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c1d-allowed-tools-decisive/transcript*.jsonl.gz`

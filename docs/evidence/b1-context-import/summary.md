@@ -83,3 +83,6 @@
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/b1-context-import/transcript*.jsonl.gz`
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/b1-context-import/transcript*.jsonl.gz`

@@ -16,3 +16,6 @@
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c1c-allowed-tools-probe/transcript*.jsonl.gz`
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c1c-allowed-tools-probe/transcript*.jsonl.gz`

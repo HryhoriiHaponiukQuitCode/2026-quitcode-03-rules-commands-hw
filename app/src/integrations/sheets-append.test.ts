@@ -56,3 +56,15 @@ describe("sheets-append: відсутня змінна середовища", ()
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });
+
+describe("sheets-append: ідемпотентність", () => {
+  it("не повторює POST на 5xx — рядок у таблиці не має дублюватись", async () => {
+    const fetchMock = vi.fn(async () => new Response("upstream down", { status: 503 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await sheetsAppend.send(lead);
+
+    expect(result.ok).toBe(false);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+});

@@ -121,3 +121,6 @@ Test Files  7 passed (7)
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/a-hook--opus/transcript*.jsonl.gz`
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/a-hook--opus/transcript*.jsonl.gz`

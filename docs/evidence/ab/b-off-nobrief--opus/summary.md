@@ -27,8 +27,8 @@
 - `app/scripts/core.lock.json`
 - `app/scripts/check-rules.mjs`
 - `.claude/hooks/protect-core.mjs`
-- `src/integrations/sheets-append.test.ts`
-- `scripts/check-rules.mjs`
+- `app/src/integrations/sheets-append.test.ts`
+- `app/scripts/check-rules.mjs`
 
 **Виклики інструментів:** Bash×11
 
@@ -120,6 +120,9 @@ Test Files  7 passed (7)
    Duration  170ms (transform 68%, tests 15%, import 13%, worker 4%)
 ```
 
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/b-off-nobrief--opus/transcript*.jsonl.gz`
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/b-off-nobrief--opus/transcript*.jsonl.gz`

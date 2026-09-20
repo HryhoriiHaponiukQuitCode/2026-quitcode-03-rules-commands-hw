@@ -16,14 +16,14 @@
 | вартість, $ | 0.525 |
 
 **Файли, прочитані до першої зміни:**
-- `src/core/types.ts`
-- `src/integrations/sheets-append.ts`
-- `src/integrations/sheets-append.test.ts`
-- `src/sync/run.ts`
+- `app/src/core/types.ts`
+- `app/src/integrations/sheets-append.ts`
+- `app/src/integrations/sheets-append.test.ts`
+- `app/src/sync/run.ts`
 - `app/src/sync/state.ts`
 - `app/src/integrations/index.ts`
 - `app/scripts/core.lock.json`
-- `src/core/http.ts`
+- `app/src/core/http.ts`
 
 **Виклики інструментів:** Bash×9
 
@@ -161,6 +161,9 @@ Test Files  7 passed (7)
 core.lock.json не змінено
 ```
 
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/clean-on--opus/transcript*.jsonl.gz`
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/clean-on--opus/transcript*.jsonl.gz`

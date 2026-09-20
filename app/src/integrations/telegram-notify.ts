@@ -2,7 +2,7 @@
 import { readEnv } from "../core/config.js";
 import { postJson } from "../core/http.js";
 import { log, redact } from "../core/log.js";
-import { isRecord, parseJson } from "../core/parse.js";
+import { isRecord, isString, parseJson } from "../core/parse.js";
 import type { Guard } from "../core/parse.js";
 import type { Integration, Lead, Result } from "../core/types.js";
 
@@ -13,7 +13,11 @@ interface TelegramResponse {
 }
 
 const isTelegramResponse: Guard<TelegramResponse> = (value): value is TelegramResponse =>
-  isRecord(value) && typeof value.ok === "boolean";
+  isRecord(value) &&
+  typeof value.ok === "boolean" &&
+  // Без цієї перевірки відповідь {"ok":false,"description":{}} проходить guard,
+  // і в текст помилки летить "[object Object]" замість відмови розібрати JSON.
+  (value.description === undefined || isString(value.description));
 
 /**
  * Тіло сповіщення: лише name, source, budgetUsd (`conventions.md` §8).

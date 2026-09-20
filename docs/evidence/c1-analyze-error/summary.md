@@ -17,14 +17,14 @@
 
 **Файли, прочитані до першої зміни:**
 - `materials/error-log.txt`
-- `src/sync/state.ts`
-- `src/sync/run.ts`
+- `app/src/sync/state.ts`
+- `app/src/sync/run.ts`
 - `.claude/rules/conventions.md`
 - `.claude/rules/architecture.md`
-- `src/sync/run.test.ts`
-- `src/core/types.ts`
-- `src/core/parse.ts`
-- `src/sync/repro.test.ts`
+- `app/src/sync/run.test.ts`
+- `app/src/core/types.ts`
+- `app/src/core/parse.ts`
+- `app/src/sync/repro.test.ts`
 
 **Виклики інструментів:** Bash×7
 
@@ -245,6 +245,9 @@ Test Files  6 passed (6)
 ?? tools/session-run.sh
 ```
 
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c1-analyze-error/transcript*.jsonl.gz`
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c1-analyze-error/transcript*.jsonl.gz`

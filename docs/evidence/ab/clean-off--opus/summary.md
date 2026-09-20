@@ -16,21 +16,21 @@
 | вартість, $ | 0.760 |
 
 **Файли, прочитані до першої зміни:**
-- `scripts/check-rules.mjs`
-- `scripts/core.lock.json`
-- `src/core/types.ts`
-- `src/core/parse.ts`
-- `src/core/config.ts`
-- `src/sync/run.ts`
-- `src/sync/state.ts`
-- `src/integrations/index.ts`
-- `src/integrations/sheets-append.ts`
+- `app/scripts/check-rules.mjs`
+- `app/scripts/core.lock.json`
+- `app/src/core/types.ts`
+- `app/src/core/parse.ts`
+- `app/src/core/config.ts`
+- `app/src/sync/run.ts`
+- `app/src/sync/state.ts`
+- `app/src/integrations/index.ts`
+- `app/src/integrations/sheets-append.ts`
 - `CLAUDE.md`
-- `src/integrations/sheets-append.test.ts`
-- `src/core/http.ts`
-- `src/core/log.ts`
-- `src/leads/campaign.ts`
-- `src/leads/campaign.test.ts`
+- `app/src/integrations/sheets-append.test.ts`
+- `app/src/core/http.ts`
+- `app/src/core/log.ts`
+- `app/src/leads/campaign.ts`
+- `app/src/leads/campaign.test.ts`
 
 **Виклики інструментів:** Bash×12
 
@@ -195,6 +195,9 @@ diff -ru /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitco
 Only in /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src: leads
 ```
 
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/clean-off--opus/transcript*.jsonl.gz`
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/clean-off--opus/transcript*.jsonl.gz`

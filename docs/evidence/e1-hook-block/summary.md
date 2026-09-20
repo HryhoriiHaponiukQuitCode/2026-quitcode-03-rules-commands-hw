@@ -83,3 +83,6 @@
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/e1-hook-block/transcript*.jsonl.gz`
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/e1-hook-block/transcript*.jsonl.gz`

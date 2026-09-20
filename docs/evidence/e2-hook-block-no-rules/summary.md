@@ -69,3 +69,6 @@
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/e2-hook-block-no-rules/transcript*.jsonl.gz`
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/e2-hook-block-no-rules/transcript*.jsonl.gz`

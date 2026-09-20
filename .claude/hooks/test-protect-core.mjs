@@ -7,6 +7,8 @@
 //   node .claude/hooks/test-protect-core.mjs
 //   exit 0 — усі кейси пройшли, exit 1 — є провал.
 import { spawnSync } from "node:child_process";
+import { mkdtempSync, rmSync, symlinkSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { decide } from "./protect-core.mjs";
@@ -75,6 +77,13 @@ const CASES = [
   ["складене читання з 2>/dev/null", bash('head -5 app/src/core/log.ts && cat .claude/settings.json 2>/dev/null | head -60'), false],
   ["злиття потоків 2>&1", bash("cat app/src/core/log.ts 2>&1 | head"), false],
   ["справжній запис попри 2>/dev/null", bash("echo x > app/src/core/log.ts 2>/dev/null"), true],
+
+  // Знайдено рев'ю CodeRabbit на PR #4: літеральний пошук тексту «app/src/core»
+  // не бачить `..` усередині Bash-команди, хоча оболонка запише саме туди.
+  ["обхід через .. у Bash-перенаправленні", bash("echo x > app/src/integrations/../core/log.ts"), true],
+  ["обхід через .. у sed -i", bash("sed -i '' '1i\\ x' app/src/sync/../core/log.ts"), true],
+  ["обхід через .. у cp", bash("cp /tmp/x.ts app/src/integrations/../../src/core/log.ts"), true],
+  ["невинний .. поза захищеною зоною", bash("echo x > app/src/core/../integrations/tmp.ts"), false],
 ];
 
 let failed = 0;
@@ -83,6 +92,28 @@ for (const [name, input, expected] of CASES) {
   const ok = got === expected;
   if (!ok) failed++;
   console.log(`${ok ? "  ok  " : "FAIL  "}${expected ? "блок" : "пропуск"}  ${name}`);
+}
+
+// --- symlink-аліас: шлях, який лексично невинний, а веде в ядро ---
+// Теж знахідка рев'ю: resolve() прибирає `..`, але не розкриває symlink.
+console.log("\nsymlink-аліас на захищений каталог:");
+const linkDir = mkdtempSync(`${tmpdir()}/ws03-symlink-`);
+try {
+  const alias = `${linkDir}/core-alias`;
+  symlinkSync(resolve(ROOT, "app/src/core"), alias);
+  const symlinkCases = [
+    ["Edit через аліас на ядро", edit(`${alias}/log.ts`), true],
+    ["Write нового файлу через аліас", edit(`${alias}/sneaky.ts`, "Write"), true],
+    ["Bash-запис через аліас", bash(`printf x > ${alias}/log.ts`), true],
+  ];
+  for (const [name, input, expected] of symlinkCases) {
+    const got = decide(input, ROOT).block;
+    const ok = got === expected;
+    if (!ok) failed++;
+    console.log(`${ok ? "  ok  " : "FAIL  "}${expected ? "блок" : "пропуск"}  ${name}`);
+  }
+} finally {
+  rmSync(linkDir, { recursive: true, force: true });
 }
 
 // --- перевірка реального контракту: код виходу і stderr справжнього процесу ---
@@ -103,5 +134,5 @@ for (const [name, input, expectedCode] of wire) {
   console.log(`${ok ? "  ok  " : "FAIL  "}exit ${run.status} (очікували ${expectedCode})  ${name}`);
 }
 
-console.log(`\n${CASES.length + wire.length} кейсів, провалів: ${failed}`);
+console.log(`\n${CASES.length + wire.length + 3} кейсів, провалів: ${failed}`);
 process.exit(failed === 0 ? 0 : 1);

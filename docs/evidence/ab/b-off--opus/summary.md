@@ -16,19 +16,19 @@
 | вартість, $ | 0.925 |
 
 **Файли, прочитані до першої зміни:**
-- `src/core/types.ts`
-- `src/core/parse.ts`
-- `src/integrations/sheets-append.ts`
-- `src/sync/run.ts`
-- `src/sync/state.ts`
-- `scripts/core.lock.json`
+- `app/src/core/types.ts`
+- `app/src/core/parse.ts`
+- `app/src/integrations/sheets-append.ts`
+- `app/src/sync/run.ts`
+- `app/src/sync/state.ts`
+- `app/scripts/core.lock.json`
 - `.claude/hooks/protect-core.mjs`
 - `.claude/settings.local.json`
 - `materials/ab-task.md`
 - `materials/architecture-brief.md`
-- `src/integrations/index.ts`
-- `src/integrations/sheets-append.test.ts`
-- `scripts/check-rules.mjs`
+- `app/src/integrations/index.ts`
+- `app/src/integrations/sheets-append.test.ts`
+- `app/scripts/check-rules.mjs`
 - `docs/proposals/lead-utm-campaign/utm-campaign.patch`
 - `docs/proposals/lead-utm-campaign/README.md`
 - `app/src/core/types.ts`
@@ -131,6 +131,9 @@ Test Files  7 passed (7)
    Duration  160ms (transform 65%, tests 16%, import 15%, worker 4%)
 ```
 
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/b-off--opus/transcript*.jsonl.gz`
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/ab/b-off--opus/transcript*.jsonl.gz`

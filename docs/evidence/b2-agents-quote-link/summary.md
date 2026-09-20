@@ -50,3 +50,6 @@ See [AGENTS.md](./AGENTS.md) for project conventions.
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/b2-agents-quote-link/transcript*.jsonl.gz`
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/b2-agents-quote-link/transcript*.jsonl.gz`

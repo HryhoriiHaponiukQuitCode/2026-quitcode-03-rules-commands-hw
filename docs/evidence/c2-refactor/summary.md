@@ -16,16 +16,16 @@
 | вартість, $ | 0.602 |
 
 **Файли, прочитані до першої зміни:**
-- `src/integrations/sheets-append.ts`
-- `src/integrations/sheets-append.test.ts`
-- `src/integrations/slack-notify.ts`
-- `src/core/types.ts`
-- `src/core/http.ts`
-- `src/core/config.ts`
-- `src/core/parse.ts`
-- `src/core/log.ts`
+- `app/src/integrations/sheets-append.ts`
+- `app/src/integrations/sheets-append.test.ts`
+- `app/src/integrations/slack-notify.ts`
+- `app/src/core/types.ts`
+- `app/src/core/http.ts`
+- `app/src/core/config.ts`
+- `app/src/core/parse.ts`
+- `app/src/core/log.ts`
 - `.claude/rules/conventions.md`
-- `src/integrations/index.ts`
+- `app/src/integrations/index.ts`
 
 **Виклики інструментів:** Bash×13
 
@@ -175,6 +175,9 @@ M .claude/commands/analyze-error.md
 ?? tools/session-run.sh
 ```
 
+---
+
+Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c2-refactor/transcript*.jsonl.gz`
 ---
 
 Сирий транскрипт: `docs/evidence/raw-transcripts.tar` → `docs/evidence/c2-refactor/transcript*.jsonl.gz`
