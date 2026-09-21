@@ -11,6 +11,8 @@
 //   node tools/check-rule-claims.mjs --quiet    лише підсумок
 //
 // Скрипт свідомо лежить поза app/scripts/** — той каталог захищений.
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -178,6 +180,111 @@ check("заборонені правилом шляхи не з'явились �
     .map(([path, why]) => `${path} (${why})`);
   if (appeared.length) throw new Error(`правило забороняє, а воно є: ${appeared.join(", ")}`);
   return `${KNOWN_ABSENT.size} шляхів`;
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ЧИСЛА. Усе вище перевіряє структуру; цей блок перевіряє цифри.
+//
+// Навіщо окремо. Двічі в цьому репозиторії текст розходився з фактом саме
+// числом: «47 кейсів» після того, як їх стало 54, і «7 тверджень» після
+// восьмого. Структурна перевірка такого не бачить — число треба ВИМІРЯТИ й
+// звірити з тим, що заявлено в документах. Ідея перевіряти саме числа взята з
+// docs/audit-claims.mjs у роботі Vitalii Semerenko (PR #8 репозиторію курсу).
+//
+// Тут навмисно немає жодного очікуваного значення в коді: і вимір, і твердження
+// беруться з артефактів, інакше з'явилось би третє джерело істини.
+const run = (cmd, args, cwd = ROOT) =>
+  execFileSync(cmd, args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+
+const claimed = (file, re, what) => {
+  const m = read(file).match(re);
+  if (!m) throw new Error(`у ${file} немає твердження про ${what}`);
+  return { value: Number(m[1]), file };
+};
+
+const agree = (measured, claims, what) => {
+  const wrong = claims.filter((c) => c.value !== measured);
+  if (wrong.length) {
+    throw new Error(
+      `реально ${measured}, а заявлено: ${wrong.map((c) => `${c.value} (${c.file})`).join(", ")} — ${what}`,
+    );
+  }
+  return `${measured} — збігається у ${claims.length} документах`;
+};
+
+// 9. Кількість тестів у документах = скільки їх насправді.
+check("числа: кількість тестів", () => {
+  const out = run("npm", ["test", "--silent"], join(ROOT, "app"));
+  const m = out.match(/Tests\s+(\d+) passed/);
+  if (!m) throw new Error("не вдалось прочитати кількість тестів із виводу vitest");
+  return agree(Number(m[1]), [
+    claimed("docs/verification.md", /тестів стало \*\*(\d+)\*\*/, "кількість тестів"),
+    claimed("docs/ab-validation.md", /а тестів (\d+), не 26/, "кількість тестів"),
+    claimed("docs/reviewer-map.md", /(\d+) тестів/, "кількість тестів"),
+  ], "кількість тестів");
+});
+
+// 10. check:rules TOTAL у документах = реальний TOTAL.
+check("числа: порушення check:rules", () => {
+  const out = run("npm", ["run", "--silent", "check:rules"], join(ROOT, "app"));
+  const m = out.match(/TOTAL: (\d+)/);
+  if (!m) throw new Error("не вдалось прочитати TOTAL");
+  return agree(Number(m[1]), [
+    claimed("AGENTS.md", /на старті домашки TOTAL: 8, зараз — (\d+)/, "TOTAL"),
+    claimed("docs/reviewer-map.md", /\*\*TOTAL: (\d+)\*\*/, "TOTAL"),
+    claimed(".claude/rules/conventions.md", /\*\*TOTAL: 0\*\*[\s\S]*?зараз — \*\*(\d+)\*\*/, "TOTAL"),
+  ], "порушення check:rules");
+});
+
+// 11. Кейси хука в документах = скільки їх у тестах.
+check("числа: кейси обходу хука", () => {
+  const out = run("node", [".claude/hooks/test-protect-core.mjs"]);
+  const m = out.match(/(\d+) кейс[іыв]*, провалів: (\d+)/);
+  if (!m) throw new Error("не вдалось прочитати підсумок тестів хука");
+  if (Number(m[2]) !== 0) throw new Error(`тести хука падають: ${m[2]} провалів`);
+  return agree(Number(m[1]), [
+    claimed("docs/verification.md", /test-protect-core\.mjs` — \*\*(\d+) кейс/, "кейси хука"),
+    claimed("docs/reviewer-map.md", /(\d+) кейс(?:ів)? обходу хука/, "кейси хука"),
+  ], "кейси обходу хука");
+});
+
+// 12. Запит A/B справді був один і той самий — у КОЖНОМУ прогоні.
+//
+// «Той самий запит» — головна умова валідності абляції, і досі вона трималась
+// на моєму слові. Тепер це хеш: канонічний текст із materials/ab-task.md проти
+// запиту, вкладеного в кожен summary.md.
+check("числа: SHA256 запиту A/B однаковий у всіх прогонах", () => {
+  const task = read("materials/ab-task.md");
+  const between = task.split(/^---$/m)[1] ?? "";
+  const canonical = between.split("\n").filter((l) => l.trim() !== "").join("\n") + "\n";
+  const sha = (text) => createHash("sha256").update(text).digest("hex");
+  const expected = sha(canonical);
+
+  const abDir = join(ROOT, "docs/evidence/ab");
+  const runs = readdirSync(abDir, { withFileTypes: true }).filter((e) => e.isDirectory());
+  const wrong = [];
+  for (const r of runs) {
+    const summary = read(`docs/evidence/ab/${r.name}/summary.md`);
+    const m = summary.match(/### Запит \(байт у байт\)[^\n]*\n\n```\n([\s\S]*?)```\n/);
+    if (!m) { wrong.push(`${r.name}: немає запиту у звіті`); continue; }
+    if (sha(m[1]) !== expected) wrong.push(`${r.name}: ${sha(m[1]).slice(0, 12)}`);
+  }
+  if (wrong.length) throw new Error(`розійшлись із ${expected.slice(0, 12)}: ${wrong.join(", ")}`);
+
+  const inReport = read("docs/ab-validation.md").match(/SHA256 запиту[^`]*`([0-9a-f]{64})`/);
+  if (!inReport) throw new Error("у docs/ab-validation.md не записано SHA256 запиту");
+  if (inReport[1] !== expected) throw new Error(`у звіті ${inReport[1].slice(0, 12)}, реально ${expected.slice(0, 12)}`);
+
+  return `${runs.length} прогонів, один хеш ${expected.slice(0, 12)}…`;
+});
+
+// 13. Кількість самих тверджень, заявлена в документах, = скільки їх тут.
+check("числа: кількість тверджень цього скрипта", () => {
+  const total = checks.length + 1; // +1: ця перевірка ще не дорахована
+  return agree(total, [
+    claimed("docs/verification.md", /check-rule-claims\.mjs` — (\d+) тверджень/, "кількість тверджень"),
+    claimed("docs/reviewer-map.md", /\((\d+) тверджень\)/, "кількість тверджень"),
+  ], "кількість тверджень");
 });
 
 if (!quiet) {

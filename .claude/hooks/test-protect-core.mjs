@@ -108,6 +108,21 @@ const CASES = [
    bash(`node -e "require('fs').writeFileSync('docs/scratch.md','y')"`), false],
   ["звичайний запуск скрипта", bash("node tools/ab-report.mjs docs/evidence"), false],
   ["python -c без запису", bash(`python3 -c "print(2)"`), false],
+
+  // Клас, якого тут бракувало: `cd` перед записом. Узято з тестів роботи
+  // Vitalii Semerenko (PR #8 того самого репозиторію курсу) і прогнано проти
+  // цього хука — 10 з 11 збіглися одразу, останній показав хибне спрацювання:
+  // перехід ЗА МЕЖІ репо блокувався, хоча запис іде в сусідній проєкт.
+  // Виправлено basesFor(); обидва напрями закріплені нижче.
+  ["cd app, запис через ..", bash("cd app && echo x > ../app/src/core/log.ts"), true],
+  ["cd падає, || лишає оболонку в корені", bash("cd missing || echo x > app/src/core/log.ts"), true],
+  ["cd падає, ; лишає оболонку в корені", bash("cd missing ; echo x > app/src/core/log.ts"), true],
+  ["cd зі змінною — ціль переходу невідома", bash('cd "$PWD/app" && echo x > src/core/log.ts'), true],
+  ["cd з підстановкою $(pwd)", bash("cd $(pwd)/app && echo x > src/core/log.ts"), true],
+  ["cd app/../app — статичний, усередині репо", bash("cd app/../app && echo x > src/core/log.ts"), true],
+  ["cd за межі репо — чужий проєкт, не наша зона", bash("cd ../app && echo x > src/core/log.ts"), false],
+  ["динамічний cd із записом у /tmp", bash("cd $HOME && echo y > /tmp/out.txt"), false],
+  ["динамічний cd без запису", bash("cd $HOME && npm test"), false],
 ];
 
 // --- конверти Cursor: інша назва інструмента й інша форма вхідного JSON ---

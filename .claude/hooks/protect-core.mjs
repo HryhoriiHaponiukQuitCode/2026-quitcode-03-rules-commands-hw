@@ -154,17 +154,44 @@ export function hit(rawPath, root = projectRoot(), cwd = root) {
 }
 
 /**
+ * Від якого каталогу рахувати відносні шляхи в команді.
+ *
+ * За замовчуванням — обидва правдоподібні: корінь репо і `app/` (агент часто
+ * пише `cd app && …`). Це свідомо надлишково, але дає хибне спрацювання там,
+ * де команда переходить ЗА МЕЖІ репозиторію: `cd ../app && echo x > src/core/…`
+ * пише в сусідній проєкт, а не в наше ядро. Знайдено порівнянням із тестами
+ * роботи Vitalii Semerenko (PR #8 того самого репозиторію курсу) — у нього цей
+ * кейс позначений як дозволений, і він має рацію.
+ *
+ * Тому: якщо команда починається зі СТАТИЧНОГО `cd X &&` — тобто запис
+ * виконається лише за успішного переходу, — база рівно одна, `X`.
+ * Якщо `cd` динамічний (`$PWD`, `$(pwd)`) або зчеплений через `;` чи `||`
+ * (тоді запис станеться й після невдалого переходу) — лишаємо обидві бази:
+ * не знаємо, де опинилась оболонка, отже припускаємо найгірше.
+ */
+function basesFor(command, root) {
+  const fallback = [root, resolve(root, "app")];
+  const m = command.match(/^\s*cd\s+(['"]?)([^\s;|&]+)\1\s*&&/);
+  if (!m) return fallback;
+  const target = m[2];
+  if (/[$`~*?]/.test(target)) return fallback;   // ціль переходу невідома — fail closed
+  return [isAbsolute(target) ? resolve(target) : resolve(root, target)];
+}
+
+/**
  * Куди веде команда Bash. Літеральний пошук тексту «app/src/core» недостатній:
  * `echo x > app/src/integrations/../core/log.ts` його не містить, а пише саме
  * туди. Тому з команди дістаються всі схожі на шлях токени, і КОЖЕН
  * проганяється через hit() — там і `..`, і symlink.
  *
  * Корінь для відносних шляхів неоднозначний (`cd app && …` зсуває його), тому
- * перевіряються обидва варіанти: від кореня репо і від app/.
+ * за замовчуванням перевіряються обидва варіанти: від кореня репо і від app/.
+ * Уточнює це basesFor() — див. нижче.
  */
 function pathsInCommand(command, root = projectRoot()) {
   const found = [];
   const seen = new Set();
+  const bases = basesFor(command, root);
   // Токени: рвемо по пробілах і операторах оболонки, знімаємо лапки й оператори.
   const tokens = command
     .split(/[\s;|&()<>]+/)
@@ -173,7 +200,7 @@ function pathsInCommand(command, root = projectRoot()) {
 
   for (const token of tokens) {
     if (token.startsWith("/dev/")) continue;
-    for (const base of [root, resolve(root, "app")]) {
+    for (const base of bases) {
       const p = hit(token, root, base);
       if (p && !seen.has(p.path)) { seen.add(p.path); found.push(p); }
     }
