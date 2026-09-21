@@ -45,6 +45,29 @@ describe("loadState", () => {
     writeFileSync(statePath, JSON.stringify({ lastSynced: 1757500000 }));
     expect(loadState(statePath).ok).toBe(false);
   });
+
+  // Знахідка рев'ю CodeRabbit (PR #4): guard перевіряв лише тип рядка.
+  // `""` пропускає всі ліди повторно, `"z"` більший за будь-яку ISO-дату й
+  // зупиняє синхронізацію назавжди — обидва проходили як «валідний стан».
+  it.each([
+    ['порожній рядок', '{"lastSyncedAt":""}'],
+    ['не дата', '{"lastSyncedAt":"z"}'],
+    ['без часу', '{"lastSyncedAt":"2026-09-10"}'],
+    ['без мілісекунд', '{"lastSyncedAt":"2026-09-10T08:00:00Z"}'],
+    ['неіснуюча дата', '{"lastSyncedAt":"2026-13-45T00:00:00.000Z"}'],
+    ['інший тип lastLeadId', '{"lastSyncedAt":"2026-09-10T08:00:00.000Z","lastLeadId":7}'],
+  ])("відхиляє стан: %s", (_name, content) => {
+    writeFileSync(statePath, content);
+    expect(loadState(statePath).ok).toBe(false);
+  });
+
+  it("читає стан, збережений до появи lastLeadId", () => {
+    writeFileSync(statePath, '{"lastSyncedAt":"2026-09-10T08:00:00.000Z"}');
+    expect(loadState(statePath)).toEqual({
+      ok: true,
+      value: { lastSyncedAt: "2026-09-10T08:00:00.000Z" },
+    });
+  });
 });
 
 describe("saveState", () => {

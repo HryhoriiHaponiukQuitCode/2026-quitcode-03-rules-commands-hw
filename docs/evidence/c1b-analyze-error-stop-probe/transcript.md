@@ -1,6 +1,6 @@
 # Транскрипт прогону `c1b-analyze-error-stop-probe`
 
-**Модель:** `claude-opus-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-opus-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/analyze-error`, `/generate-integration`, `/refactor`, `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -8,7 +8,7 @@
 ### 🔧 1. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && git status --short && echo "=== LOG ===" && cat -n materials/error-log.txt
+cd "<repo>" && git status --short && echo "=== LOG ===" && cat -n materials/error-log.txt
 ```
 
 <details><summary>результат</summary>
@@ -43,7 +43,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 2. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && find app/src app/tests -type f 2>/dev/null | head -50 && echo "=== state.ts ===" && cat -n app/src/sync/state.ts
+cd "<repo>" && find app/src app/tests -type f 2>/dev/null | head -50 && echo "=== state.ts ===" && cat -n app/src/sync/state.ts
 ```
 
 <details><summary>результат</summary>
@@ -94,7 +94,7 @@ app/src/sync/run.ts
 ### 🔧 3. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && echo "=== run.ts ===" && cat -n app/src/sync/run.ts && echo "=== run.test.ts (head) ===" && cat -n app/src/sync/run.test.ts | head -60
+cd "<repo>" && echo "=== run.ts ===" && cat -n app/src/sync/run.ts && echo "=== run.test.ts (head) ===" && cat -n app/src/sync/run.test.ts | head -60
 ```
 
 <details><summary>результат</summary>
@@ -142,7 +142,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 4. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && echo "=== conventions ===" && cat -n .claude/rules/conventions.md && echo "=== types ===" && cat -n app/src/core/types.ts
+cd "<repo>" && echo "=== conventions ===" && cat -n .claude/rules/conventions.md && echo "=== types ===" && cat -n app/src/core/types.ts
 ```
 
 <details><summary>результат</summary>
@@ -184,7 +184,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 5. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && npm run check:rules 2>&1 | tail -25
+cd "<repo>/app" && npm run check:rules 2>&1 | tail -25
 ```
 
 <details><summary>результат</summary>
@@ -222,7 +222,7 @@ TOTAL: 8 violation(s)
 ### 🔧 6. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && sed -n '1,12p' .claude/commands/analyze-error.md && echo "=== parse.ts ===" && cat -n app/src/core/parse.ts
+cd "<repo>" && sed -n '1,12p' .claude/commands/analyze-error.md && echo "=== parse.ts ===" && cat -n app/src/core/parse.ts
 ```
 
 <details><summary>результат</summary>
@@ -265,7 +265,7 @@ allowed-tools: Read, Grep, Glob, Bash(cd app && npm test:*), Bash(git log:*), Ba
 ### 🔧 7. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && git status --short
+cd "<repo>" && git status --short
 ```
 
 <details><summary>результат</summary>

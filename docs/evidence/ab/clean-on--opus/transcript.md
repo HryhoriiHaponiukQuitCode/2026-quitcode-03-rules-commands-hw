@@ -56,12 +56,12 @@ ls -la && cat .claude/rules/*.md 2>/dev/null | head -200
 
 ```
 total 16
-drwx------@    6 hryhorii_haponiuk  staff    192 Sep 20 11:47 .
-drwx------@ 2556 hryhorii_haponiuk  staff  81792 Sep 20 11:47 ..
-drwxr-xr-x@    5 hryhorii_haponiuk  staff    160 Sep 20 11:47 .claude
--rw-r--r--@    1 hryhorii_haponiuk  staff   3330 Sep 20 11:47 AGENTS.md
--rw-r--r--@    1 hryhorii_haponiuk  staff   1290 Sep 20 11:47 CLAUDE.md
-drwxr-xr-x@    8 hryhorii_haponiuk  staff    256 Sep 20 11:47 app
+drwx------@    6 <user>  staff    192 Sep 20 11:47 .
+drwx------@ 2556 <user>  staff  81792 Sep 20 11:47 ..
+drwxr-xr-x@    5 <user>  staff    160 Sep 20 11:47 .claude
+-rw-r--r--@    1 <user>  staff   3330 Sep 20 11:47 AGENTS.md
+-rw-r--r--@    1 <user>  staff   1290 Sep 20 11:47 CLAUDE.md
+drwxr-xr-x@    8 <user>  staff    256 Sep 20 11:47 app
 ---
 paths:
   - "app/src/**/*.ts"

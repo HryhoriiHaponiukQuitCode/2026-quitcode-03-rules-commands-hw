@@ -1,6 +1,6 @@
 # Транскрипт прогону `b-off-nobrief--opus`
 
-**Модель:** `claude-opus-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-opus-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -8,7 +8,7 @@
 ### 🔧 1. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls -a && echo "---" && git status --short && echo "--- tracked files ---" && git ls-files | head -100
+cd "<repo>" && ls -a && echo "---" && git status --short && echo "--- tracked files ---" && git ls-files | head -100
 ```
 
 <details><summary>результат</summary>
@@ -81,7 +81,7 @@ app/src/integ
 ### 🔧 2. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls .claude .cursor && echo "--- app tree ---" && find app/src -type f | sort && echo "--- package.json ---" && cat app/package.json
+cd "<repo>" && ls .claude .cursor && echo "--- app tree ---" && find app/src -type f | sort && echo "--- package.json ---" && cat app/package.json
 ```
 
 <details><summary>результат</summary>
@@ -135,7 +135,7 @@ app/src/sync/state.ts
 ### 🔧 3. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && cat .claude/settings.local.json && echo "=== ab-task ===" && cat materials/ab-task.md && echo "=== core/types.ts ===" && cat app/src/core/types.ts
+cd "<repo>" && cat .claude/settings.local.json && echo "=== ab-task ===" && cat materials/ab-task.md && echo "=== core/types.ts ===" && cat app/src/core/types.ts
 ```
 
 <details><summary>результат</summary>
@@ -189,7 +189,7 @@ ex
 ### 🔧 4. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && cat app/src/core/parse.ts && echo "=== sheets-append.ts ===" && cat app/src/integrations/sheets-append.ts
+cd "<repo>" && cat app/src/core/parse.ts && echo "=== sheets-append.ts ===" && cat app/src/integrations/sheets-append.ts
 ```
 
 <details><summary>результат</summary>
@@ -234,7 +234,7 @@ im
 ### 🔧 5. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && cat app/src/sync/run.ts && echo "=== state.ts ===" && cat app/src/sync/state.ts
+cd "<repo>" && cat app/src/sync/run.ts && echo "=== state.ts ===" && cat app/src/sync/state.ts
 ```
 
 <details><summary>результат</summary>
@@ -286,7 +286,7 @@ export async function runSync(
 ### 🔧 6. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && cat app/scripts/core.lock.json && echo "=== check-rules.mjs ===" && cat app/scripts/check-rules.mjs
+cd "<repo>" && cat app/scripts/core.lock.json && echo "=== check-rules.mjs ===" && cat app/scripts/check-rules.mjs
 ```
 
 <details><summary>результат</summary>
@@ -321,7 +321,7 @@ i
 ### 🔧 7. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls -R docs/proposals docs/evidence/ab 2>/dev/null | head -40 && echo "=== protect-core hook ===" && sed -n 1,60p .claude/hooks/protect-core.mjs
+cd "<repo>" && ls -R docs/proposals docs/evidence/ab 2>/dev/null | head -40 && echo "=== protect-core hook ===" && sed -n 1,60p .claude/hooks/protect-core.mjs
 ```
 
 <details><summary>результат</summary>
@@ -387,7 +387,7 @@ lead-utm-campaign
 ### 🔧 8. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls -R docs/proposals/lead-utm-campaign && echo "===" && for f in docs/proposals/lead-utm-campaign/*; do echo "--- $f ---"; cat "$f"; done
+cd "<repo>" && ls -R docs/proposals/lead-utm-campaign && echo "===" && for f in docs/proposals/lead-utm-campaign/*; do echo "--- $f ---"; cat "$f"; done
 ```
 
 <details><summary>результат</summary>
@@ -435,7 +435,7 @@ utmCampaign?: string;
 ### 🔧 9. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && ls -d node_modules 2>/dev/null; echo "--- sheets test ---"; cat src/integrations/sheets-append.test.ts
+cd "<repo>/app" && ls -d node_modules 2>/dev/null; echo "--- sheets test ---"; cat src/integrations/sheets-append.test.ts
 ```
 
 <details><summary>результат</summary>
@@ -486,7 +486,7 @@ describe("sheets-append", () => {
 
 ```
 set -e
-ROOT="/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw"
+ROOT="<repo>"
 SP="/private/tmp/claude-501/-Users-hryhorii-haponiuk-Desktop-Work-Folder-Agentic-Course-2026-quitcode-03-rules-commands-hw/86be97fa-6818-4e72-b2f8-d84e25d2f8a5/scratchpad"
 rm -rf "$SP/verify"; mkdir -p "$SP/verify"
 rsync -a --exclude node_modules "$ROOT/app/" "$SP/verify/app/"
@@ -506,7 +506,7 @@ patching file 'app/src/core/types.ts'
 patching file 'app/src/integrations/sheets-append.ts'
 patching file 'app/src/integrations/sheets-append.test.ts'
 === patch applied ===
-Shell cwd was reset to /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw
+Shell cwd was reset to <repo>
 ```
 
 </details>
@@ -555,7 +555,7 @@ by file:
   src/core/types.ts    1
 
 TOTAL: 2 violation(s)
-Shell cwd was reset to /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw
+Shell cwd was reset to <repo>
 ```
 
 </details>

@@ -1,6 +1,6 @@
 # Транскрипт прогону `a-hook--sonnet`
 
-**Модель:** `claude-sonnet-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-sonnet-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/analyze-error`, `/generate-integration`, `/refactor`, `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -8,7 +8,7 @@
 ### 🔧 1. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && find app/src -type f -name "*.ts" | xargs grep -l "utmCampaign\|interface Lead\|type Lead" 
+cd "<repo>" && find app/src -type f -name "*.ts" | xargs grep -l "utmCampaign\|interface Lead\|type Lead" 
 ```
 
 <details><summary>результат</summary>
@@ -22,7 +22,7 @@ app/src/core/types.ts
 ### 🔧 2. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/core/types.ts
+<repo>/app/src/core/types.ts
 ```
 
 <details><summary>результат</summary>
@@ -62,7 +62,7 @@ app/src/core/types.ts
 ### 🔧 3. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src" && echo "--- sync ---" && ls sync && echo "--- integrations ---" && ls integrations && echo "--- core ---" && ls core
+cd "<repo>/app/src" && echo "--- sync ---" && ls sync && echo "--- integrations ---" && ls integrations && echo "--- core ---" && ls core
 ```
 
 <details><summary>результат</summary>
@@ -96,7 +96,7 @@ types.ts
 ### 🔧 4. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts
+<repo>/app/src/integrations/sheets-append.ts
 ```
 
 <details><summary>результат</summary>
@@ -139,7 +139,7 @@ types.ts
 ### 🔧 5. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/sync/run.ts
+<repo>/app/src/sync/run.ts
 ```
 
 <details><summary>результат</summary>
@@ -190,7 +190,7 @@ types.ts
 ### 🔧 6. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src" && grep -rn "utmCampaign\|budgetUsd" . 
+cd "<repo>/app/src" && grep -rn "utmCampaign\|budgetUsd" . 
 ```
 
 <details><summary>результат</summary>
@@ -209,16 +209,16 @@ integrations/telegram-notify.test.ts:11:  budgetUsd: 4000,
 ### 🔧 7. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls -la docs/proposals/ 2>/dev/null && echo "---" && find docs -type f
+cd "<repo>" && ls -la docs/proposals/ 2>/dev/null && echo "---" && find docs -type f
 ```
 
 <details><summary>результат</summary>
 
 ```
 total 0
-drwxr-xr-x@ 3 hryhorii_haponiuk  staff   96 Sep 20 11:32 .
-drwxr-xr-x@ 7 hryhorii_haponiuk  staff  224 Sep 20 11:32 ..
-drwxr-xr-x@ 4 hryhorii_haponiuk  staff  128 Sep 20 11:33 lead-utm-campaign
+drwxr-xr-x@ 3 <user>  staff   96 Sep 20 11:32 .
+drwxr-xr-x@ 7 <user>  staff  224 Sep 20 11:32 ..
+drwxr-xr-x@ 4 <user>  staff  128 Sep 20 11:33 lead-utm-campaign
 ---
 docs/walkthrough.md
 docs/templates/rule-claude.md
@@ -251,7 +251,7 @@ do
 ### 🔧 8. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && cat docs/proposals/lead-utm-campaign/README.md && echo "=====PATCH=====" && cat docs/proposals/lead-utm-campaign/utm-campaign.patch
+cd "<repo>" && cat docs/proposals/lead-utm-campaign/README.md && echo "=====PATCH=====" && cat docs/proposals/lead-utm-campaign/utm-campaign.patch
 ```
 
 <details><summary>результат</summary>

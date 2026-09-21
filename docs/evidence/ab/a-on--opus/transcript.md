@@ -1,6 +1,6 @@
 # Транскрипт прогону `a-on--opus`
 
-**Модель:** `claude-opus-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-opus-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/analyze-error`, `/generate-integration`, `/refactor`, `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -8,7 +8,7 @@
 ### 🔧 1. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls && echo "---CORE---" && ls app/src/core && echo "---TYPES---" && cat app/src/core/types.ts
+cd "<repo>" && ls && echo "---CORE---" && ls app/src/core && echo "---TYPES---" && cat app/src/core/types.ts
 ```
 
 <details><summary>результат</summary>
@@ -64,7 +64,7 @@ export interface Integration {
 ### 🔧 2. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls -R app/src/integrations app/src/sync && echo "---SHEETS---" && cat app/src/integrations/*sheet* 2>/dev/null
+cd "<repo>" && ls -R app/src/integrations app/src/sync && echo "---SHEETS---" && cat app/src/integrations/*sheet* 2>/dev/null
 ```
 
 <details><summary>результат</summary>
@@ -122,7 +122,7 @@ describe("sheets-append", () => {
 ### 🔧 3. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && cat app/src/sync/run.ts && echo "=== state ===" && cat app/src/sync/state.ts && echo "=== parse ===" && cat app/src/core/parse.ts
+cd "<repo>" && cat app/src/sync/run.ts && echo "=== state ===" && cat app/src/sync/state.ts && echo "=== parse ===" && cat app/src/core/parse.ts
 ```
 
 <details><summary>результат</summary>
@@ -174,7 +174,7 @@ export async function runSync(
 ### 🔧 4. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls -R docs/proposals docs/evidence 2>/dev/null | head -50
+cd "<repo>" && ls -R docs/proposals docs/evidence 2>/dev/null | head -50
 ```
 
 <details><summary>результат</summary>
@@ -237,7 +237,7 @@ app.diff
 ### 🔧 5. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls -la docs/proposals && for f in docs/proposals/*; do echo "=== $f ==="; head -40 "$f"; done 2>/dev/null
+cd "<repo>" && ls -la docs/proposals && for f in docs/proposals/*; do echo "=== $f ==="; head -40 "$f"; done 2>/dev/null
 ```
 
 <details><summary>результат</summary>
@@ -245,9 +245,9 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ```
 Exit code 1
 total 0
-drwxr-xr-x@ 3 hryhorii_haponiuk  staff   96 Sep 20 11:32 .
-drwxr-xr-x@ 7 hryhorii_haponiuk  staff  224 Sep 20 11:32 ..
-drwxr-xr-x@ 4 hryhorii_haponiuk  staff  128 Sep 20 11:33 lead-utm-campaign
+drwxr-xr-x@ 3 <user>  staff   96 Sep 20 11:32 .
+drwxr-xr-x@ 7 <user>  staff  224 Sep 20 11:32 ..
+drwxr-xr-x@ 4 <user>  staff  128 Sep 20 11:33 lead-utm-campaign
 === docs/proposals/lead-utm-campaign ===
 ```
 
@@ -256,7 +256,7 @@ drwxr-xr-x@ 4 hryhorii_haponiuk  staff  128 Sep 20 11:33 lead-utm-campaign
 ### 🔧 6. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && cat app/src/integrations/index.ts && echo "=== conventions §8 ===" && sed -n '1,200p' .claude/rules/conventions.md | grep -n "§8" -A 20 ; echo "=== lock ===" && head -30 app/scripts/core.lock.json
+cd "<repo>" && cat app/src/integrations/index.ts && echo "=== conventions §8 ===" && sed -n '1,200p' .claude/rules/conventions.md | grep -n "§8" -A 20 ; echo "=== lock ===" && head -30 app/scripts/core.lock.json
 ```
 
 <details><summary>результат</summary>
@@ -288,7 +288,7 @@ export const integrations: readonly Integration[] = [slackNotify, telegramNotify
 ### 🔧 7. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && find docs/proposals -type f | head -20 && echo "---" && for f in $(find docs/proposals -type f); do echo "=== $f ==="; cat "$f"; done
+cd "<repo>" && find docs/proposals -type f | head -20 && echo "---" && for f in $(find docs/proposals -type f); do echo "=== $f ==="; cat "$f"; done
 ```
 
 <details><summary>результат</summary>
@@ -334,7 +334,7 @@ docs/proposals/lead-utm-campaign/README.md
 ### 🔧 8. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && git apply --check docs/proposals/lead-utm-campaign/utm-campaign.patch && echo "PATCH APPLIES CLEANLY" ; echo "--- status ---" ; git status --short ; echo "--- core diff ---" ; git diff --stat -- app/src/core app/scripts materials .github .coderabbit.yaml
+cd "<repo>" && git apply --check docs/proposals/lead-utm-campaign/utm-campaign.patch && echo "PATCH APPLIES CLEANLY" ; echo "--- status ---" ; git status --short ; echo "--- core diff ---" ; git diff --stat -- app/src/core app/scripts materials .github .coderabbit.yaml
 ```
 
 <details><summary>результат</summary>

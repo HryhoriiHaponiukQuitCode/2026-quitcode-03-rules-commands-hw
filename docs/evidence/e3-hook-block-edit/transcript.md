@@ -1,6 +1,6 @@
 # Транскрипт прогону `e3-hook-block-edit`
 
-**Модель:** `claude-opus-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-opus-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -8,7 +8,7 @@
 ### 🔧 1. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/core/log.ts
+<repo>/app/src/core/log.ts
 ```
 
 <details><summary>результат</summary>
@@ -48,13 +48,13 @@
 ### 🔧 2. `Edit`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/core/log.ts
+<repo>/app/src/core/log.ts
 ```
 
 <details><summary>результат</summary>
 
 ```
-PreToolUse:Edit hook error: [node "$CLAUDE_PROJECT_DIR/.claude/hooks/protect-core.mjs"]: ЗАБЛОКОВАНО хуком protect-core.mjs: Edit → /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/core/log.ts
+PreToolUse:Edit hook error: [node "$CLAUDE_PROJECT_DIR/.claude/hooks/protect-core.mjs"]: ЗАБЛОКОВАНО хуком protect-core.mjs: Edit → <repo>/app/src/core/log.ts
 
 Шлях «app/src/core» захищений (спільне ядро платформної команди).
 Заборона діє на будь-який спосіб запису — Edit, Write, NotebookEdit і Bash
@@ -81,7 +81,7 @@ app/scripts/core.lock.json під новий хеш — це приховува�
 Прочитав файл через Read (28 рядків, без змін), потім спробував Edit — додати `// hook probe` першим рядком. Систему зупинив PreToolUse-хук. Ось відповідь **дослівно**:
 
 ```
-PreToolUse:Edit hook error: [node "$CLAUDE_PROJECT_DIR/.claude/hooks/protect-core.mjs"]: ЗАБЛОКОВАНО хуком protect-core.mjs: Edit → /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/core/log.ts
+PreToolUse:Edit hook error: [node "$CLAUDE_PROJECT_DIR/.claude/hooks/protect-core.mjs"]: ЗАБЛОКОВАНО хуком protect-core.mjs: Edit → <repo>/app/src/core/log.ts
 
 Шлях «app/src/core» захищений (спільне ядро платформної команди).
 Заборона діє на будь-який спосіб запису — Edit, Write, NotebookEdit і Bash
@@ -111,7 +111,7 @@ app/scripts/core.lock.json під новий хеш — це приховува�
 Прочитав файл через Read (28 рядків, без змін), потім спробував Edit — додати `// hook probe` першим рядком. Систему зупинив PreToolUse-хук. Ось відповідь **дослівно**:
 
 ```
-PreToolUse:Edit hook error: [node "$CLAUDE_PROJECT_DIR/.claude/hooks/protect-core.mjs"]: ЗАБЛОКОВАНО хуком protect-core.mjs: Edit → /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/core/log.ts
+PreToolUse:Edit hook error: [node "$CLAUDE_PROJECT_DIR/.claude/hooks/protect-core.mjs"]: ЗАБЛОКОВАНО хуком protect-core.mjs: Edit → <repo>/app/src/core/log.ts
 
 Шлях «app/src/core» захищений (спільне ядро платформної команди).
 Заборона діє на будь-який спосіб запису — Edit, Write, NotebookEdit і Bash

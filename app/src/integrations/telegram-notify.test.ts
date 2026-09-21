@@ -122,12 +122,17 @@ describe("telegram-notify", () => {
 });
 
 describe("telegram-notify: guard відповіді", () => {
+  // Знахідка рев'ю CodeRabbit (PR #4): без stubEnv тест закінчувався на
+  // відсутній змінній середовища й «проходив», нічого не довівши про guard.
+  // Тепер перевіряється саме результат розбору відповіді, і повністю.
   it("відхиляє description нерядкового типу, а не пише [object Object]", async () => {
+    stubEnv();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => {});
     vi.stubGlobal("fetch", vi.fn(async () => new Response('{"ok":false,"description":{}}', { status: 200 })));
 
     const result = await telegramNotify.send(lead);
 
-    expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.error).not.toContain("[object Object]");
+    expect(result).toEqual({ ok: false, error: "telegram-notify: unexpected shape" });
   });
 });

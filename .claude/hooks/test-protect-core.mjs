@@ -84,10 +84,60 @@ const CASES = [
   ["обхід через .. у sed -i", bash("sed -i '' '1i\\ x' app/src/sync/../core/log.ts"), true],
   ["обхід через .. у cp", bash("cp /tmp/x.ts app/src/integrations/../../src/core/log.ts"), true],
   ["невинний .. поза захищеною зоною", bash("echo x > app/src/core/../integrations/tmp.ts"), false],
+
+  // Знахідка другого рев'ю CodeRabbit (PR #4): статичний розбір тексту команди
+  // не бачить цілі, яку зібрано під час виконання. Відтворено прогоном до фікса —
+  // усі шість проходили.
+  ["node -e: шлях склеєно конкатенацією",
+   bash(`node -e "const p='app/src/'+'core/log.ts'; require('fs').writeFileSync(p,'x')"`), true],
+  ["node -e: symlink і запис через нього в одній команді",
+   bash(`node -e "const fs=require('fs');fs.symlinkSync(process.cwd()+'/app/src/core','/tmp/a9');fs.writeFileSync('/tmp/a9/log.ts','x')"`), true],
+  ["node -e: шлях у base64",
+   bash(`node -e "require('fs').writeFileSync(Buffer.from('YXBwL3NyYy9jb3JlL2xvZy50cw==','base64').toString(),'x')"`), true],
+  ["python -c: шлях склеєно",
+   bash(`python3 -c "from pathlib import Path; Path('app/src/'+'core/log.ts').write_text('x')"`), true],
+  ["bash: ціль перенаправлення у змінній",
+   bash("p=app/src/; echo x > ${p}core/log.ts"), true],
+  ["bash: ціль cp у підстановці",
+   bash("cp /tmp/x.ts $(echo app/src/core/log.ts)"), true],
+
+  // Зворотні кейси до тієї ж політики: інтерпретатор без запису й запис із
+  // літеральною ціллю поза захищеною зоною мають працювати.
+  ["node -e без запису", bash(`node -e "console.log(1+1)"`), false],
+  ["node -e пише за літеральним шляхом поза ядром",
+   bash(`node -e "require('fs').writeFileSync('docs/scratch.md','y')"`), false],
+  ["звичайний запуск скрипта", bash("node tools/ab-report.mjs docs/evidence"), false],
+  ["python -c без запису", bash(`python3 -c "print(2)"`), false],
+];
+
+// --- конверти Cursor: інша назва інструмента й інша форма вхідного JSON ---
+// Знахідка рев'ю: `.cursor/hooks.json` був зареєстрований, але decide() знав
+// лише `Bash`, тож обидва хуки Cursor пропускали запис за замовчуванням.
+const CURSOR_CASES = [
+  ["preToolUse: tool_name Shell",
+   { tool_name: "Shell", tool_input: { command: "printf x > app/src/core/log.ts" }, cwd: ROOT }, true],
+  ["preToolUse: Shell із sed -i",
+   { tool_name: "Shell", tool_input: { command: "sed -i '' '1i\\ x' app/scripts/check-rules.mjs" }, cwd: ROOT }, true],
+  ["beforeShellExecution: command на верхньому рівні",
+   { command: "printf x > app/src/core/log.ts", cwd: ROOT }, true],
+  ["beforeShellExecution: читання не блокується",
+   { command: "cat app/src/core/log.ts", cwd: ROOT }, false],
+  ["preToolUse: шлях у target_file на верхньому рівні",
+   { tool_name: "Write", target_file: "app/src/core/log.ts", cwd: ROOT }, true],
+  ["Shell поза захищеною зоною",
+   { tool_name: "Shell", tool_input: { command: "echo x > docs/notes.md" }, cwd: ROOT }, false],
 ];
 
 let failed = 0;
 for (const [name, input, expected] of CASES) {
+  const got = decide(input, ROOT).block;
+  const ok = got === expected;
+  if (!ok) failed++;
+  console.log(`${ok ? "  ok  " : "FAIL  "}${expected ? "блок" : "пропуск"}  ${name}`);
+}
+
+console.log("\nконверти Cursor (Shell / beforeShellExecution):");
+for (const [name, input, expected] of CURSOR_CASES) {
   const got = decide(input, ROOT).block;
   const ok = got === expected;
   if (!ok) failed++;
@@ -122,6 +172,8 @@ const wire = [
   ["блокує з кодом 2", edit("app/src/core/log.ts"), 2],
   ["пропускає з кодом 0", edit("app/src/integrations/slack-notify.ts"), 0],
   ["зламаний JSON не валить сесію", null, 0],
+  // Конверт Cursor доходить до справжнього процесу, а не лише до decide().
+  ["конверт Cursor блокує з кодом 2", { command: "printf x > app/src/core/log.ts", cwd: ROOT }, 2],
 ];
 for (const [name, input, expectedCode] of wire) {
   const run = spawnSync(process.execPath, [HOOK], {
@@ -134,5 +186,5 @@ for (const [name, input, expectedCode] of wire) {
   console.log(`${ok ? "  ok  " : "FAIL  "}exit ${run.status} (очікували ${expectedCode})  ${name}`);
 }
 
-console.log(`\n${CASES.length + wire.length + 3} кейсів, провалів: ${failed}`);
+console.log(`\n${CASES.length + CURSOR_CASES.length + wire.length + 3} кейсів, провалів: ${failed}`);
 process.exit(failed === 0 ? 0 : 1);

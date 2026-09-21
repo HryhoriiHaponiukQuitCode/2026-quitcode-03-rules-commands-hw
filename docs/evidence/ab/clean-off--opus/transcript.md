@@ -19,9 +19,9 @@ ls -la && find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*' | h
 
 ```
 total 0
-drwx------@    3 hryhorii_haponiuk  staff     96 Sep 20 11:45 .
-drwx------@ 2550 hryhorii_haponiuk  staff  81600 Sep 20 11:45 ..
-drwxr-xr-x@    8 hryhorii_haponiuk  staff    256 Sep 20 11:45 app
+drwx------@    3 <user>  staff     96 Sep 20 11:45 .
+drwx------@ 2550 <user>  staff  81600 Sep 20 11:45 ..
+drwxr-xr-x@    8 <user>  staff    256 Sep 20 11:45 app
 ./app/package-lock.json
 ./app/package.json
 ./app/tsconfig.json
@@ -207,14 +207,14 @@ cd /private/var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T/ws03-clean.cPYqwB &&
 ```
 Exit code 1
 total 120
-drwxr-xr-x@ 8 hryhorii_haponiuk  staff    256 Sep 20 11:45 .
-drwx------@ 3 hryhorii_haponiuk  staff     96 Sep 20 11:45 ..
-lrwxr-xr-x@ 1 hryhorii_haponiuk  staff    111 Sep 20 11:45 node_modules -> /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/node_modules
--rw-r--r--@ 1 hryhorii_haponiuk  staff  49635 Sep 20 11:45 package-lock.json
--rw-r--r--@ 1 hryhorii_haponiuk  staff    423 Sep 20 11:45 package.json
-drwxr-xr-x@ 4 hryhorii_haponiuk  staff    128 Sep 20 11:45 scripts
-drwxr-xr-x@ 5 hryhorii_haponiuk  staff    160 Sep 20 11:45 src
--rw-r--r--@ 1 hryhorii_haponiuk  staff    227 Sep 20 11:45 tsconfig.json
+drwxr-xr-x@ 8 <user>  staff    256 Sep 20 11:45 .
+drwx------@ 3 <user>  staff     96 Sep 20 11:45 ..
+lrwxr-xr-x@ 1 <user>  staff    111 Sep 20 11:45 node_modules -> <repo>/app/node_modules
+-rw-r--r--@ 1 <user>  staff  49635 Sep 20 11:45 package-lock.json
+-rw-r--r--@ 1 <user>  staff    423 Sep 20 11:45 package.json
+drwxr-xr-x@ 4 <user>  staff    128 Sep 20 11:45 scripts
+drwxr-xr-x@ 5 <user>  staff    160 Sep 20 11:45 src
+-rw-r--r--@ 1 <user>  staff    227 Sep 20 11:45 tsconfig.json
 --- claude dirs
 ```
 

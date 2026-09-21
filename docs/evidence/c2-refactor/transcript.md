@@ -1,6 +1,6 @@
 # Транскрипт прогону `c2-refactor`
 
-**Модель:** `claude-opus-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-opus-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/analyze-error`, `/generate-integration`, `/refactor`, `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -28,7 +28,7 @@ cd app && npm run check:rules 2>&1 | tail -40
 > vitest run
 
 
- RUN  v5.0.0 /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app
+ RUN  v5.0.0 <repo>/app
 
 
  Test Files  6 passed (6)
@@ -51,7 +51,7 @@ Exit code 1
 ### 🔧 3. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && npm run check:rules 2>&1 | tail -40
+cd "<repo>/app" && npm run check:rules 2>&1 | tail -40
 ```
 
 <details><summary>результат</summary>
@@ -96,7 +96,7 @@ TOTAL: 8 violation(s)
 ### 🔧 4. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && echo "=== sheets-append.ts ===" && cat -n src/integrations/sheets-append.ts && echo && echo "=== sheets-append.test.ts ===" && cat -n src/integrations/sheets-append.test.ts
+cd "<repo>/app" && echo "=== sheets-append.ts ===" && cat -n src/integrations/sheets-append.ts && echo && echo "=== sheets-append.test.ts ===" && cat -n src/integrations/sheets-append.test.ts
 ```
 
 <details><summary>результат</summary>
@@ -135,7 +135,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 5. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && echo "=== slack-notify.ts ===" && cat -n src/integrations/slack-notify.ts && echo && echo "=== core/types.ts ===" && cat -n src/core/types.ts && echo && echo "=== core/http.ts ===" && cat -n src/core/http.ts
+cd "<repo>/app" && echo "=== slack-notify.ts ===" && cat -n src/integrations/slack-notify.ts && echo && echo "=== core/types.ts ===" && cat -n src/core/types.ts && echo && echo "=== core/http.ts ===" && cat -n src/core/http.ts
 ```
 
 <details><summary>результат</summary>
@@ -176,7 +176,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 6. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && echo "=== config.ts ===" && cat -n src/core/config.ts && echo && echo "=== parse.ts ===" && cat -n src/core/parse.ts && echo && echo "=== log.ts ===" && cat -n src/core/log.ts
+cd "<repo>/app" && echo "=== config.ts ===" && cat -n src/core/config.ts && echo && echo "=== parse.ts ===" && cat -n src/core/parse.ts && echo && echo "=== log.ts ===" && cat -n src/core/log.ts
 ```
 
 <details><summary>результат</summary>
@@ -218,7 +218,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 7. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && cat -n .claude/rules/conventions.md
+cd "<repo>" && cat -n .claude/rules/conventions.md
 ```
 
 <details><summary>результат</summary>
@@ -259,7 +259,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 8. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && cat -n src/integrations/index.ts
+cd "<repo>/app" && cat -n src/integrations/index.ts
 ```
 
 <details><summary>результат</summary>
@@ -278,7 +278,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 9. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && cat > src/integrations/sheets-append.ts <<'EOF'
+cd "<repo>/app" && cat > src/integrations/sheets-append.ts <<'EOF'
 // Рядок у Google-таблицю обліку лідів. Таблиця — система обліку,
 // тому сюди йдуть повні дані ліда (на відміну від месенджерів, конвенції §8).
 import { readEnv } from "../core/config.js";
@@ -313,7 +313,7 @@ written
 ### 🔧 10. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && npm test 2>&1 | tail -20 && echo "---TYPECHECK---" && npm run typecheck 2>&1 | tail -10
+cd "<repo>/app" && npm test 2>&1 | tail -20 && echo "---TYPECHECK---" && npm run typecheck 2>&1 | tail -10
 ```
 
 <details><summary>результат</summary>
@@ -323,7 +323,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 > vitest run
 
 
- RUN  v5.0.0 /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app
+ RUN  v5.0.0 <repo>/app
 
 
  Test Files  6 passed (6)
@@ -346,7 +346,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 11. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && cat >> src/integrations/sheets-append.test.ts <<'EOF'
+cd "<repo>/app" && cat >> src/integrations/sheets-append.test.ts <<'EOF'
 
 describe("sheets-append: відсутня змінна середовища", () => {
   it("повертає помилку і не ходить у мережу без SHEETS_TOKEN", async () => {
@@ -372,7 +372,7 @@ npm test 2>&1 | tail -12
 > vitest run
 
 
- RUN  v5.0.0 /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app
+ RUN  v5.0.0 <repo>/app
 
 
  Test Files  6 passed (6)
@@ -386,7 +386,7 @@ npm test 2>&1 | tail -12
 ### 🔧 12. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && npm run check:rules 2>&1 | tail -25 && echo "---TYPECHECK---" && npm run typecheck 2>&1 | tail -5
+cd "<repo>/app" && npm run check:rules 2>&1 | tail -25 && echo "---TYPECHECK---" && npm run typecheck 2>&1 | tail -5
 ```
 
 <details><summary>результат</summary>
@@ -423,7 +423,7 @@ TOTAL: 1 violation(s)
 ### 🔧 13. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && git status --short && echo "---STAT---" && git diff --stat && echo "---TEST DIFF---" && git diff -- '*.test.ts'
+cd "<repo>" && git status --short && echo "---STAT---" && git diff --stat && echo "---TEST DIFF---" && git diff -- '*.test.ts'
 ```
 
 <details><summary>результат</summary>

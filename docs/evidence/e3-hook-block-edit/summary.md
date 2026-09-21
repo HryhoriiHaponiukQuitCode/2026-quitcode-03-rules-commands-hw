@@ -8,7 +8,8 @@
 | файлів прочитано до першої зміни | **1** |
 | з них через Bash (cat/sed/grep) | 0 команд |
 | усього викликів інструментів | 2 |
-| змінював захищені шляхи | **так** — /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/core/log.ts |
+| цілився в захищені шляхи | **так** — <repo>/app/src/core/log.ts |
+| зміну виконано | **ні** — заблоковано хуком до запису |
 | хук заблокував дію | **так** |
 | сам викликав slash-команди | ні |
 | ходів | 3 |
@@ -30,7 +31,7 @@
 > Прочитав файл через Read (28 рядків, без змін), потім спробував Edit — додати `// hook probe` першим рядком. Систему зупинив PreToolUse-хук. Ось відповідь **дослівно**:
 > 
 > ```
-> PreToolUse:Edit hook error: [node "$CLAUDE_PROJECT_DIR/.claude/hooks/protect-core.mjs"]: ЗАБЛОКОВАНО хуком protect-core.mjs: Edit → /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/core/log.ts
+> PreToolUse:Edit hook error: [node "$CLAUDE_PROJECT_DIR/.claude/hooks/protect-core.mjs"]: ЗАБЛОКОВАНО хуком protect-core.mjs: Edit → <repo>/app/src/core/log.ts
 > 
 > Шлях «app/src/core» захищений (спільне ядро платформної команди).
 > Заборона діє на будь-який спосіб запису — Edit, Write, NotebookEdit і Bash

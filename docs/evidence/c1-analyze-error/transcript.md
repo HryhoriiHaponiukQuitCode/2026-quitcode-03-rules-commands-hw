@@ -1,6 +1,6 @@
 # Транскрипт прогону `c1-analyze-error`
 
-**Модель:** `claude-opus-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-opus-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/analyze-error`, `/generate-integration`, `/refactor`, `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -12,7 +12,7 @@ I'll start by reading the incident log and checking the git state.
 ### 🔧 1. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && git status --short && echo "--- LOG ---" && cat -n materials/error-log.txt
+cd "<repo>" && git status --short && echo "--- LOG ---" && cat -n materials/error-log.txt
 ```
 
 <details><summary>результат</summary>
@@ -51,7 +51,7 @@ Now the code behind each stack frame.
 ### 🔧 2. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && echo "=== src/sync/state.ts ===" && cat -n src/sync/state.ts && echo && echo "=== src/sync/run.ts ===" && cat -n src/sync/run.ts && echo && echo "=== ls src/sync ===" && ls -la src/sync && echo "=== ls tests ===" && find . -path ./node_modules -prune -o -name "*.test.ts" -print
+cd "<repo>/app" && echo "=== src/sync/state.ts ===" && cat -n src/sync/state.ts && echo && echo "=== src/sync/run.ts ===" && cat -n src/sync/run.ts && echo && echo "=== ls src/sync ===" && ls -la src/sync && echo "=== ls tests ===" && find . -path ./node_modules -prune -o -name "*.test.ts" -print
 ```
 
 <details><summary>результат</summary>
@@ -98,7 +98,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 3. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && echo "=== conventions.md ===" && cat -n .claude/rules/conventions.md && echo && echo "=== architecture.md (head) ===" && sed -n '1,40p' .claude/rules/architecture.md
+cd "<repo>" && echo "=== conventions.md ===" && cat -n .claude/rules/conventions.md && echo && echo "=== architecture.md (head) ===" && sed -n '1,40p' .claude/rules/architecture.md
 ```
 
 <details><summary>результат</summary>
@@ -139,7 +139,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 4. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && echo "=== sync/run.test.ts ===" && cat -n src/sync/run.test.ts && echo && echo "=== core/types.ts ===" && cat -n src/core/types.ts && echo && echo "=== core/parse.ts ===" && cat -n src/core/parse.ts
+cd "<repo>/app" && echo "=== sync/run.test.ts ===" && cat -n src/sync/run.test.ts && echo && echo "=== core/types.ts ===" && cat -n src/core/types.ts && echo && echo "=== core/parse.ts ===" && cat -n src/core/parse.ts
 ```
 
 <details><summary>результат</summary>
@@ -194,7 +194,7 @@ Let me verify the mechanism empirically — in a scratchpad copy, so the repo st
 ### 🔧 5. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && ls node_modules >/dev/null 2>&1 && echo "node_modules: yes" || echo "node_modules: NO"; node -e 'try{JSON.parse("")}catch(e){console.log("JSON.parse(\"\") ->", e.constructor.name)}'
+cd "<repo>/app" && ls node_modules >/dev/null 2>&1 && echo "node_modules: yes" || echo "node_modules: NO"; node -e 'try{JSON.parse("")}catch(e){console.log("JSON.parse(\"\") ->", e.constructor.name)}'
 ```
 
 <details><summary>результат</summary>
@@ -210,7 +210,7 @@ JSON.parse("") -> SyntaxError
 
 ```
 set -e
-SRC="/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app"
+SRC="<repo>/app"
 WORK="/private/tmp/claude-501/-Users-hryhorii-haponiuk-Desktop-Work-Folder-Agentic-Course-2026-quitcode-03-rules-commands-hw/18cbbe5f-1e48-45f3-9c94-a447f7606635/scratchpad/repro"
 rm -rf "$WORK"; mkdir -p "$WORK"
 rsync -a --exclude node_modules "$SRC"/ "$WORK"/
@@ -270,7 +270,7 @@ AssertionError: expected { Object (lastSyncedAt) } to deeply equal { Object (las
       Tests  2 failed (2)
    Start at  11:07:43
    Duration  95ms (transform 62%, import 17%, tests 17%, worker 4%)
-Shell cwd was reset to /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw
+Shell cwd was reset to <repo>
 ```
 
 </details>
@@ -282,7 +282,7 @@ Both reproductions fail against current code, as intended. Confirming the repo i
 ### 🔧 7. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && git status --short && echo "--- exit: clean-compare above ---"
+cd "<repo>" && git status --short && echo "--- exit: clean-compare above ---"
 ```
 
 <details><summary>результат</summary>

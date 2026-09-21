@@ -21,5 +21,8 @@ echo "claude exit=$? за $(( $(date +%s) - START ))s"
 git status --short > "$OUT/git-status.after.txt"
 node tools/ab-report.mjs "$OUT" > "$OUT/summary.md"
 node tools/transcript-md.mjs "$OUT" >/dev/null
+# Сирий JSONL теж іде в публічний репозиторій — прибрати локальні шляхи
+# ДО стиснення, інакше вони лишаться в архіві (рев'ю CodeRabbit, PR #4).
+node tools/redact.mjs --file "$OUT/transcript.jsonl"
 gzip -f "$OUT/transcript.jsonl"
 cat "$OUT/summary.md"

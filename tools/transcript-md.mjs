@@ -4,6 +4,7 @@
 // Сирий JSONL лишається поруч (стиснутий) — це повний слід прогону.
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { basename, join } from "node:path";
+import { redact } from "./redact.mjs";
 
 const dir = process.argv[2];
 if (!dir) { console.error("usage: node tools/transcript-md.mjs <dir>"); process.exit(1); }
@@ -48,5 +49,5 @@ for (const line of readFileSync(src, "utf8").split("\n").filter(Boolean)) {
     }
   }
 }
-writeFileSync(join(dir, "transcript.md"), out.join("\n") + "\n");
+writeFileSync(join(dir, "transcript.md"), redact(out.join("\n") + "\n"));
 console.log(`${join(dir, "transcript.md")} — ${out.length} рядків`);

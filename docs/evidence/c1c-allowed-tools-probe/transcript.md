@@ -1,6 +1,6 @@
 # Транскрипт прогону `c1c-allowed-tools-probe`
 
-**Модель:** `claude-sonnet-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-sonnet-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/analyze-error`, `/generate-integration`, `/refactor`, `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -12,7 +12,7 @@ I'll start by reading the error log and the relevant source files — this comma
 ### 🔧 1. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/materials/error-log.txt
+<repo>/materials/error-log.txt
 ```
 
 <details><summary>результат</summary>
@@ -45,7 +45,7 @@ I'll start by reading the error log and the relevant source files — this comma
 ### 🔧 2. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/sync/state.ts
+<repo>/app/src/sync/state.ts
 ```
 
 <details><summary>результат</summary>
@@ -81,7 +81,7 @@ I'll start by reading the error log and the relevant source files — this comma
 ### 🔧 3. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/sync/run.ts
+<repo>/app/src/sync/run.ts
 ```
 
 <details><summary>результат</summary>
@@ -132,7 +132,7 @@ I'll start by reading the error log and the relevant source files — this comma
 ### 🔧 4. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && find src -name "*.test.ts" | head -20 && echo --- && cat src/integrations/*.test.ts 2>/dev/null | head -80
+cd "<repo>/app" && find src -name "*.test.ts" | head -20 && echo --- && cat src/integrations/*.test.ts 2>/dev/null | head -80
 ```
 
 <details><summary>результат</summary>
@@ -185,7 +185,7 @@ describe("sheets-append", () => {
 ### 🔧 5. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app" && cat src/core/http.ts | sed -n '1,60p'
+cd "<repo>/app" && cat src/core/http.ts | sed -n '1,60p'
 ```
 
 <details><summary>результат</summary>
@@ -230,7 +230,7 @@ export async function postJson(url: string, body: unknown, options: PostOptions 
 ### 🔧 6. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/sync/run.test.ts
+<repo>/app/src/sync/run.test.ts
 ```
 
 <details><summary>результат</summary>
@@ -285,7 +285,7 @@ export async function postJson(url: string, body: unknown, options: PostOptions 
 ### 🔧 7. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && git status --short
+cd "<repo>" && git status --short
 ```
 
 <details><summary>результат</summary>
@@ -299,7 +299,7 @@ This command changes directory before running a version-control command, which c
 ### 🔧 8. `Bash`
 
 ```
-git -C "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" status --short
+git -C "<repo>" status --short
 ```
 
 <details><summary>результат</summary>
@@ -313,7 +313,7 @@ This command requires approval
 ### 🔧 9. `Bash`
 
 ```
-git -C "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" status --short
+git -C "<repo>" status --short
 ```
 
 <details><summary>результат</summary>

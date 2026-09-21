@@ -1,6 +1,6 @@
 # Транскрипт прогону `a-on--sonnet`
 
-**Модель:** `claude-sonnet-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-sonnet-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/analyze-error`, `/generate-integration`, `/refactor`, `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -8,7 +8,7 @@
 ### 🔧 1. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && find app/src -type f -name "*.ts" | xargs grep -l "Lead" | sort
+cd "<repo>" && find app/src -type f -name "*.ts" | xargs grep -l "Lead" | sort
 ```
 
 <details><summary>результат</summary>
@@ -30,7 +30,7 @@ app/src/sync/run.ts
 ### 🔧 2. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && find app/src/integrations -type f | sort
+cd "<repo>" && find app/src/integrations -type f | sort
 ```
 
 <details><summary>результат</summary>
@@ -50,7 +50,7 @@ app/src/integrations/telegram-notify.ts
 ### 🔧 3. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/core/types.ts
+<repo>/app/src/core/types.ts
 ```
 
 <details><summary>результат</summary>
@@ -90,7 +90,7 @@ app/src/integrations/telegram-notify.ts
 ### 🔧 4. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts
+<repo>/app/src/integrations/sheets-append.ts
 ```
 
 <details><summary>результат</summary>
@@ -133,7 +133,7 @@ app/src/integrations/telegram-notify.ts
 ### 🔧 5. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && grep -rn "utmCampaign\|isLead\|: Lead\|Lead =" app/src --include="*.ts" | grep -v ".test.ts"
+cd "<repo>" && grep -rn "utmCampaign\|isLead\|: Lead\|Lead =" app/src --include="*.ts" | grep -v ".test.ts"
 ```
 
 <details><summary>результат</summary>
@@ -152,7 +152,7 @@ app/src/integrations/sheets-append.ts:19:  async send(lead: Lead): Promise<Resul
 ### 🔧 6. `Read`
 
 ```
-/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/sync/run.ts
+<repo>/app/src/sync/run.ts
 ```
 
 <details><summary>результат</summary>

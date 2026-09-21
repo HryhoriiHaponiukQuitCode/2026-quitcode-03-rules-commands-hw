@@ -92,7 +92,9 @@ if (!DRY && archived.length) {
   // рівно це й сталося один раз, відновлювати довелось із git. Тому для
   // наявного архіву — дозапис, а не створення заново.
   const mode = existsSync(archivePath) ? "-rf" : "-cf";
-  execFileSync("tar", [mode, archivePath, "-C", ROOT, ...archived]);
+  // --uname/--gname: інакше ім'я облікового запису лишається в заголовку
+  // КОЖНОГО запису архіву, навіть коли самі транскрипти вже відредаговані.
+  execFileSync("tar", [mode, archivePath, "--numeric-owner", "--uname", "", "--gname", "", "-C", ROOT, ...archived]);
   for (const f of archived) rmSync(join(ROOT, f));
 }
 

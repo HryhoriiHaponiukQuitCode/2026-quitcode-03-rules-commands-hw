@@ -1,6 +1,6 @@
 # Транскрипт прогону `e1-hook-block`
 
-**Модель:** `claude-opus-5` · **cwd:** `/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw`
+**Модель:** `claude-opus-5` · **cwd:** `<repo>`
 **Команди в сесії:** `/analyze-error`, `/generate-integration`, `/refactor`, `/deep-research`, `/design`, `/slides`, `/design-sync`, `/dataviz`, `/artifact-diagramming`, `/artifact-capabilities`, `/update-config`, `/verify`, `/debug`, `/code-review`, `/simplify`, `/batch`, `/fewer-permission-prompts`, `/doctor`, `/loop`, `/schedule`, `/claude-api`, `/workflow-authoring`, `/run`, `/run-skill-generator`, `/advisor`, `/agents`, `/auto-mode-setup`, `/autocompact`, `/clear`, `/color`, `/compact`, `/config`, `/output-style`, `/context`, `/effort`, `/fast`, `/heapdump`, `/init`, `/mcp`, `/import`, `/model`, `/__remote-workflow`, `/workflow-launch-exec`, `/reload-plugins`, `/reload-skills`, `/rename`, `/security-review`, `/usage-credits`, `/extra-usage`, `/usage`, `/insights`, `/recap`, `/skill-doctor`, `/goal`, `/design-consent`, `/design-revoke`, `/list-agents`, `/team-onboarding`
 
 ---
@@ -8,7 +8,7 @@
 ### 🔧 1. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && ls -R docs/evidence/e1-hook-block/ 2>/dev/null | head -40; echo "---HOOK---"; sed -n '1,60p' .claude/hooks/protect-core.mjs
+cd "<repo>" && ls -R docs/evidence/e1-hook-block/ 2>/dev/null | head -40; echo "---HOOK---"; sed -n '1,60p' .claude/hooks/protect-core.mjs
 ```
 
 <details><summary>результат</summary>
@@ -49,7 +49,7 @@ transcript.jsonl
 ### 🔧 2. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && cat docs/evidence/e1-hook-block/prompt.txt; echo "=== STDERR ==="; cat docs/evidence/e1-hook-block/stderr.txt; echo "=== HASH ==="; cat docs/evidence/e1-hook-block/hash.before.txt
+cd "<repo>" && cat docs/evidence/e1-hook-block/prompt.txt; echo "=== STDERR ==="; cat docs/evidence/e1-hook-block/stderr.txt; echo "=== HASH ==="; cat docs/evidence/e1-hook-block/hash.before.txt
 ```
 
 <details><summary>результат</summary>
@@ -66,14 +66,14 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 3. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && wc -c docs/evidence/e1-hook-block/transcript.jsonl && head -c 2000 docs/evidence/e1-hook-block/transcript.jsonl
+cd "<repo>" && wc -c docs/evidence/e1-hook-block/transcript.jsonl && head -c 2000 docs/evidence/e1-hook-block/transcript.jsonl
 ```
 
 <details><summary>результат</summary>
 
 ```
 28380 docs/evidence/e1-hook-block/transcript.jsonl
-{"type":"system","subtype":"init","cwd":"/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw","session_id":"055f9d98-9686-4b10-8815-de7422fbb2a5","tools":["Task","Artifact","ArtifactComments","ArtifactData","Bash","CronCreate","CronDelete","CronList","DesignSync","Edit","EnterWorktree","ExitWorktree","ListAgents","Monitor","NotebookEdit","PushNotification","Read","RemoteTrigger","ReportFindings","ScheduleWakeup","SendMessage","ShareOnboardingGuide","Skill","TaskStop","ToolSearch","WebFetch","WebSearch","Workflow","Write"],"mcp_servers":[],"model":"claude-opus-5","permissionMode":"bypassPermissions","slash_commands":["analyze-error","generate-integration","refactor","deep-research","design","slides","design-sync","dataviz","artifact-diagramming","artifact-capabilities","update-config","verify","debug","code-review","simplify","batch","fewer-permission-prompts","doctor","loop","schedule","claude-api","workflow-authoring","run","run-skill-generator","advisor","agents","auto-mode-setup","autocompact","clear","color","compact","config","output-style","context","effort","fast","heapdump","init",
+{"type":"system","subtype":"init","cwd":"<repo>","session_id":"055f9d98-9686-4b10-8815-de7422fbb2a5","tools":["Task","Artifact","ArtifactComments","ArtifactData","Bash","CronCreate","CronDelete","CronList","DesignSync","Edit","EnterWorktree","ExitWorktree","ListAgents","Monitor","NotebookEdit","PushNotification","Read","RemoteTrigger","ReportFindings","ScheduleWakeup","SendMessage","ShareOnboardingGuide","Skill","TaskStop","ToolSearch","WebFetch","WebSearch","Workflow","Write"],"mcp_servers":[],"model":"claude-opus-5","permissionMode":"bypassPermissions","slash_commands":["analyze-error","generate-integration","refactor","deep-research","design","slides","design-sync","dataviz","artifact-diagramming","artifact-capabilities","update-config","verify","debug","code-review","simplify","batch","fewer-permission-prompts","doctor","loop","schedule","claude-api","workflow-authoring","run","run-skill-generator","advisor","agents","auto-mode-setup","autocompact","clear","color","compact","config","output-style","context","effort","fast","heapdump","init",
 … [обрізано, ще 851 символів]
 ```
 
@@ -82,7 +82,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 4. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && node .claude/hooks/test-protect-core.mjs 2>&1 | tail -30; echo "=== md5 log.ts ==="; md5 -q app/src/core/log.ts; echo "=== git status ==="; git status --short -- app/src/core
+cd "<repo>" && node .claude/hooks/test-protect-core.mjs 2>&1 | tail -30; echo "=== md5 log.ts ==="; md5 -q app/src/core/log.ts; echo "=== git status ==="; git status --short -- app/src/core
 ```
 
 <details><summary>результат</summary>
@@ -128,7 +128,7 @@ ok  блок  cp поверх ядра
 ### 🔧 5. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && grep -n "console.error\|process.exit\|deny\|Заборонено\|блок" .claude/hooks/protect-core.mjs | tail -20
+cd "<repo>" && grep -n "console.error\|process.exit\|deny\|Заборонено\|блок" .claude/hooks/protect-core.mjs | tail -20
 ```
 
 <details><summary>результат</summary>
@@ -144,7 +144,7 @@ cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03
 ### 🔧 6. `Bash`
 
 ```
-cd "/Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw" && sed -n '140,180p' .claude/hooks/protect-core.mjs
+cd "<repo>" && sed -n '140,180p' .claude/hooks/protect-core.mjs
 ```
 
 <details><summary>результат</summary>

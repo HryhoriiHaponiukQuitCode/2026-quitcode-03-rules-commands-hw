@@ -8,7 +8,8 @@
 | файлів прочитано до першої зміни | **15** |
 | з них через Bash (cat/sed/grep) | 10 команд |
 | усього викликів інструментів | 12 |
-| змінював захищені шляхи | ні |
+| цілився в захищені шляхи | ні |
+| зміну виконано | — |
 | хук заблокував дію | ні |
 | сам викликав slash-команди | ні |
 | ходів | 13 |
@@ -37,8 +38,8 @@
 **Змінені файли (git status):**
 ```
 core.lock.json не змінено
-  Files /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.test.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts differ
-  Files /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts differ
+  Files <repo>/app/src/integrations/sheets-append.test.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts differ
+  Files <repo>/app/src/integrations/sheets-append.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts differ
   Only in /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src: leads
 ```
 
@@ -123,16 +124,16 @@ Test Files  8 passed (8)
 
 ```
 core.lock.json не змінено
-  Files /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.test.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts differ
-  Files /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts differ
+  Files <repo>/app/src/integrations/sheets-append.test.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts differ
+  Files <repo>/app/src/integrations/sheets-append.ts and /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts differ
   Only in /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src: leads
 ```
 
 ### Діф по app/ — `app.diff`
 
 ```diff
-diff -ru /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.test.ts /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts
---- /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.test.ts	2026-09-20 11:25:54
+diff -ru <repo>/app/src/integrations/sheets-append.test.ts /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts
+--- <repo>/app/src/integrations/sheets-append.test.ts	2026-09-20 11:25:54
 +++ /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.test.ts	2026-09-20 11:46:45
 @@ -1,5 +1,6 @@
  import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -172,8 +173,8 @@ diff -ru /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitco
      });
    });
  
-diff -ru /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts
---- /Users/hryhorii_haponiuk/Desktop/Work Folder/Agentic Course/2026-quitcode-03-rules-commands-hw/app/src/integrations/sheets-append.ts	2026-09-20 11:25:54
+diff -ru <repo>/app/src/integrations/sheets-append.ts /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts
+--- <repo>/app/src/integrations/sheets-append.ts	2026-09-20 11:25:54
 +++ /var/folders/ms/2xzdssjx6llb4dx3yr_p4y5r0000gn/T//ws03-clean.cPYqwB/app/src/integrations/sheets-append.ts	2026-09-20 11:46:37
 @@ -5,6 +5,7 @@
  import { log } from "../core/log.js";
